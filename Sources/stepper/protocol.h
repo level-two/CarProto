@@ -11,15 +11,25 @@
 #include <stdbool.h>
 
 // layer 2 (protocol impl) - signal timings etc
-void setup()
-void state() // idle, in progress and so on
 
-// operations should be atomic - i.e one operation per time. Status should reflect if there is operation in progress
-void step(left/right) // error on operation requests collision
-void isReached(left/right)
-void terminateOperation()
+typedef enum {
+    idle,
+    inProgress,
+    reachedLeft,
+    reachedRight,
+    disabled
+} ProtocolLayerState;
 
+typedef enum {
+    left,
+    right
+} ProtocolLayerDir;
 
-
+void protocolLayerSetup();
+void protocolLayerUpdate();
+void protocolLayerStep(ProtocolLayerDir dir);
+void protocolLayerTerminateOperation();
+void protocolLayerEnable(bool isEnabled);
+ProtocolLayerState protocolLayerState();
 
 #endif /* PROTOCOL_H_ */
