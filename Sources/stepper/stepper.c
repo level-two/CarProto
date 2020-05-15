@@ -9,7 +9,7 @@
 #include "wiring.h" // FIXME
 
 void stepperSetup() {
-    setupPorts();
+   // setupPorts();
 }
 
 void stepperEnable(bool en) {

@@ -5,18 +5,20 @@
  *  Author: Yauheni
  */
 
-void timerSetup() {
-
-}
-
-void timerStart() {
-
-}
-
-void timerStop() {
-
-}
-
-uint8_t timerCurrentTick() {
-
-}
+//#include "timer.h"
+//
+//void timerSetup() {
+//
+//}
+//
+//void timerStart() {
+//
+//}
+//
+//void timerStop() {
+//
+//}
+//
+//uint8_t timerCurrentTick() {
+//
+//}

@@ -18,22 +18,22 @@ void driverLayerSetup() {
     setBits(&DRIVER_PORT_REG, bitVector2(DRIVER_LEFT_STOPPER_PIN, DRIVER_RIGHT_STOPPER_PIN));
 }
 
-void driverLayerSetStepperDir(bool val) {
+void driverLayerSetDir(bool val) {
     writeBit(&DRIVER_PORT_REG, DRIVER_DIR_PIN, val);
 }
 
-void driverLayerSetStepperStep(bool val) {
+void driverLayerSetStep(bool val) {
     writeBit(&DRIVER_PORT_REG, DRIVER_STEP_PIN, val);
 }
 
-void driverLayerSetStepperSleep(bool val) {
+void driverLayerSetSleep(bool val) {
     writeBit(&DRIVER_PORT_REG, DRIVER_SLEEP_PIN, val);
 }
 
-bool driverLayerGetStepperLeftStopper() {
+bool driverLayerLeftStopperStatus() {
     return readBit(&DRIVER_PIN_REG, DRIVER_LEFT_STOPPER_PIN);
 }
 
-bool driverLayerGetStepperRightStopper() {
+bool driverLayerRightStopperStatus() {
     return readBit(&DRIVER_PIN_REG, DRIVER_RIGHT_STOPPER_PIN);
 }

@@ -14,7 +14,7 @@ void driverLayerSetup();
 void driverLayerSetStep(bool);
 void driverLayerSetDir(bool);
 void driverLayerSetSleep(bool);
-bool driverLayerLeftStopperState();
-bool driverLayerRightStopperState();
+bool driverLayerLeftStopperStatus();
+bool driverLayerRightStopperStatus();
 
 #endif /* DRIVER_H_ */
