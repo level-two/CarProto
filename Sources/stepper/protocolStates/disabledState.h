@@ -8,8 +8,8 @@
 #ifndef DISABLEDSTATE_H_
 #define DISABLEDSTATE_H_
 
-#include "state.h"
+#include "protocolLayerState.h"
 
-void transitionToDisabled(StatePtr state);
+void transitionToDisabled(ProtocolLayerStatePtr state);
 
 #endif /* DISABLEDSTATE_H_ */

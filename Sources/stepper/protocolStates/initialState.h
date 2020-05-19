@@ -8,8 +8,9 @@
 #ifndef INITIALSTATE_H_
 #define INITIALSTATE_H_
 
-#include "State.h"
+#include "protocolLayerState.h"
+#include "stepper/stepperConfig.h"
 
-void transitionToInitial(StatePtr state);
+void transitionToInitial(ProtocolLayerStatePtr, StepperConfigPtr);
 
 #endif /* INITIALSTATE_H_ */

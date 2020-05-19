@@ -8,8 +8,8 @@
 #ifndef STEPSTATE_H_
 #define STEPSTATE_H_
 
-#include "state.h"
+#include "protocolLayerState.h"
 
-void transitionToStep(StatePtr state, StepDir dir);
+void transitionToStep(ProtocolLayerStatePtr state, StepDir dir);
 
 #endif /* STEPSTATE_H_ */

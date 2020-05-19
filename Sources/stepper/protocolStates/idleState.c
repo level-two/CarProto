@@ -9,10 +9,10 @@
 #include "disabledState.h"
 #include "stepState.h"
 
-static void step(StatePtr, StepDir);
-static void enable(StatePtr, bool);
+static void step(ProtocolLayerStatePtr, StepDir);
+static void enable(ProtocolLayerStatePtr, bool);
 
-void transitionToIdle(StatePtr state) {
+void transitionToIdle(ProtocolLayerStatePtr state) {
     defaultImplementation(state);
 
     state->step = step;
@@ -20,11 +20,11 @@ void transitionToIdle(StatePtr state) {
     state->isIdle = true;
 }
 
-static void step(StatePtr state, StepDir dir) {
+static void step(ProtocolLayerStatePtr state, StepDir dir) {
     transitionToStep(state, dir);
 }
 
-static void enable(StatePtr state, bool isEnabled) {
+static void enable(ProtocolLayerStatePtr state, bool isEnabled) {
     if (isEnabled) { return; }
     transitionToDisabled(state);
 }

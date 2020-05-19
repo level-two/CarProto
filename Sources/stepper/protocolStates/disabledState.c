@@ -9,16 +9,16 @@
 #include "stepper/driver.h"
 #include "enablingState.h"
 
-static void enable(StatePtr, bool);
+static void enable(ProtocolLayerStatePtr, bool);
 
-void transitionToDisabled(StatePtr state) {
+void transitionToDisabled(ProtocolLayerStatePtr state) {
     defaultImplementation(state);
     state->enable = enable;
 
-    driverLayerSetSleep(true);
+    driverLayerSetSleep(state->config, true);
 }
 
-static void enable(StatePtr state, bool isEnabled) {
+static void enable(ProtocolLayerStatePtr state, bool isEnabled) {
     if (!isEnabled) { return; }
     transitionToEnabling(state);
 }

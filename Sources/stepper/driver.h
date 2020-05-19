@@ -9,12 +9,13 @@
 #define DRIVER_H_
 
 #include <stdbool.h>
+#include "stepperConfig.h"
 
-void driverLayerSetup();
-void driverLayerSetStep(bool);
-void driverLayerSetDir(bool);
-void driverLayerSetSleep(bool);
-bool driverLayerLeftStopperStatus();
-bool driverLayerRightStopperStatus();
+void driverLayerSetup(StepperConfigPtr);
+void driverLayerSetStep(StepperConfigPtr, bool);
+void driverLayerSetDir(StepperConfigPtr, bool);
+void driverLayerSetSleep(StepperConfigPtr, bool);
+bool driverLayerLeftStopperStatus(StepperConfigPtr);
+bool driverLayerRightStopperStatus(StepperConfigPtr);
 
 #endif /* DRIVER_H_ */

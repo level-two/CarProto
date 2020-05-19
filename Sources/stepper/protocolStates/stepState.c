@@ -12,22 +12,22 @@
 
 #define STEP_DURATION_US 1000
 
-static void update(StatePtr, uint16_t);
+static void update(ProtocolLayerStatePtr, uint16_t);
 
-void transitionToStep(StatePtr state, StepDir dir) {
+void transitionToStep(ProtocolLayerStatePtr state, StepDir dir) {
     defaultImplementation(state);
     state->update = update;
 
-    driverLayerSetDir(dir == left ? false : true);
+    driverLayerSetDir(state->config, dir == stepperDirLeft ? false : true);
     _delay_us(1);
-    driverLayerSetStep(true);
+    driverLayerSetStep(state->config, true);
     _delay_us(1);
-    driverLayerSetStep(false);
+    driverLayerSetStep(state->config, false);
 
     state->duration = STEP_DURATION_US;
 }
 
-static void update(StatePtr state, uint16_t dt) {
+static void update(ProtocolLayerStatePtr state, uint16_t dt) {
     if (state->duration > dt) {
         state->duration -= dt;
     } else {

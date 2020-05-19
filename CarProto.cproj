@@ -162,7 +162,7 @@
     <Folder Include="Sources\libs" />
     <Folder Include="Sources\libs\avr-uart" />
     <Folder Include="Sources\common" />
-    <Folder Include="Sources\stepper\protocol" />
+    <Folder Include="Sources\stepper\protocolStates" />
     <Folder Include="Sources\timer" />
     <Folder Include="Sources\stepper" />
   </ItemGroup>
@@ -182,46 +182,46 @@
     <Compile Include="Sources\stepper\driver.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocol\disabledState.c">
+    <Compile Include="Sources\stepper\protocol.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocol\disabledState.h">
+    <Compile Include="Sources\stepper\protocol.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocol\enablingState.c">
+    <Compile Include="Sources\stepper\protocolStates\disabledState.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocol\enablingState.h">
+    <Compile Include="Sources\stepper\protocolStates\disabledState.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocol\idleState.c">
+    <Compile Include="Sources\stepper\protocolStates\enablingState.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocol\idleState.h">
+    <Compile Include="Sources\stepper\protocolStates\enablingState.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocol\initialState.c">
+    <Compile Include="Sources\stepper\protocolStates\idleState.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocol\initialState.h">
+    <Compile Include="Sources\stepper\protocolStates\idleState.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocol\protocol.c">
+    <Compile Include="Sources\stepper\protocolStates\initialState.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocol\protocol.h">
+    <Compile Include="Sources\stepper\protocolStates\initialState.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocol\state.c">
+    <Compile Include="Sources\stepper\protocolStates\protocolLayerState.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocol\state.h">
+    <Compile Include="Sources\stepper\protocolStates\protocolLayerState.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocol\stepState.c">
+    <Compile Include="Sources\stepper\protocolStates\stepState.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocol\stepState.h">
+    <Compile Include="Sources\stepper\protocolStates\stepState.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\stepper\stepper.c">
@@ -233,13 +233,16 @@
     <Compile Include="Sources\stepper\driver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\wiring.h">
+    <Compile Include="Sources\stepper\stepperConfig.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\timer\timer.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\timer\timer.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\wiring.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

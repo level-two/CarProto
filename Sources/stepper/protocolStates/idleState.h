@@ -8,8 +8,8 @@
 #ifndef IDLESTATE_H_
 #define IDLESTATE_H_
 
-#include "state.h"
+#include "protocolLayerState.h"
 
-void transitionToIdle(StatePtr state);
+void transitionToIdle(ProtocolLayerStatePtr state);
 
 #endif /* IDLESTATE_H_ */

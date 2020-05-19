@@ -8,8 +8,8 @@
 #ifndef ENABLINGSTATE_H_
 #define ENABLINGSTATE_H_
 
-#include "state.h"
+#include "protocolLayerState.h"
 
-void transitionToEnabling(StatePtr state);
+void transitionToEnabling(ProtocolLayerStatePtr state);
 
 #endif /* ENABLINGSTATE_H_ */

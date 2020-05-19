@@ -9,25 +9,40 @@
 #define STEPPER_H_
 
 #include <stdbool.h>
+#include "protocol.h"
+
+typedef struct {
+    ProtocolLayerStatePtr protocolState;
+} StepperHandler;
+
+typedef StepperHandler* StepperHandlerPtr;
 
 typedef enum {
-    left,
-    right,
-    middle
+    stepperParkedLeft,
+    stepperParkedRight,
+    stepperParkedMiddle
 } StepperParkPosition;
 
 typedef enum {
-    idle,
-    calibrating,
-    parking,
-    disabled
+    stepperStateIdle,
+    stepperStateCalibrating,
+    stepperStateParking,
+    stepperStateDisabled
 } StepperState;
 
-void stepperSetup();
-void stepperEnable(bool en); // should terminate any activity
-void stepperCalibrate();
-void stepperPark(StepperParkPosition position); // assert(minStep != maxStep)
-StepperState stepperState();
-StepperParkPosition stepperCurrentPosition();
+StepperHandlerPtr stepperSetup(
+    volatile uint8_t* portReg,
+    volatile uint8_t* ddrReg,
+    volatile uint8_t* pinReg,
+    uint8_t dirPin,
+    uint8_t stepPin,
+    uint8_t sleepPin,
+    uint8_t letfStopperPin,
+    uint8_t rightStopperPin);
+void stepperEnable(StepperHandlerPtr, bool);
+void stepperCalibrate(StepperHandlerPtr);
+void stepperPark(StepperHandlerPtr, StepperParkPosition);
+StepperState stepperState(StepperHandlerPtr);
+StepperParkPosition stepperCurrentPosition(StepperHandlerPtr);
 
 #endif /* STEPPER_H_ */

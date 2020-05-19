@@ -12,17 +12,17 @@
 // In ticks - 1ms
 #define WAKEUP_DURATION_US 1000
 
-static void update(StatePtr, uint16_t);
+static void update(ProtocolLayerStatePtr, uint16_t);
 
-void transitionToEnabling(StatePtr state) {
+void transitionToEnabling(ProtocolLayerStatePtr state) {
     defaultImplementation(state);
     state->update = update;
 
-    driverLayerSetSleep(false);
+    driverLayerSetSleep(state->config, false);
     state->duration = WAKEUP_DURATION_US;
 }
 
-static void update(StatePtr state, uint16_t dt) {
+static void update(ProtocolLayerStatePtr state, uint16_t dt) {
     if (state->duration > dt) {
         state->duration -= dt;
     } else {
