@@ -22,6 +22,7 @@ typedef struct {
 typedef StepperConfig *StepperConfigPtr;
 
 void stepperDriverSetup(StepperConfigPtr);
+void stepperDriverRelease(StepperConfigPtr);
 void stepperDriverSetStep(StepperConfigPtr, bool);
 void stepperDriverSetDir(StepperConfigPtr, bool);
 void stepperDriverSetSleep(StepperConfigPtr, bool);

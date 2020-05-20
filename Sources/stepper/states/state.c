@@ -6,15 +6,22 @@
  */
 
 #include "state.h"
+#include "releaseState.h"
 
 static void defaultUpdate(StepperStatePtr state, uint16_t dt) { }
 static void defaultStep(StepperStatePtr state, bool dir) { }
 static void defaultEnable(StepperStatePtr state, bool isEnabled) { }
 
+static void defaultRelease(StepperStatePtr state) {
+    transitionToRelease(state);
+}
+
 void defaultImplementation(StepperStatePtr state) {
     state->update = defaultUpdate;
     state->step = defaultStep;
     state->enable = defaultEnable;
+    state->release = defaultRelease;
+
     state->isIdle = false;
     state->duration = 0;
 }

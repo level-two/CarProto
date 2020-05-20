@@ -20,6 +20,7 @@ StepperStatePtr stepperSetup(
     uint8_t dirPin,
     uint8_t stepPin,
     uint8_t sleepPin);
+void stepperRelease(StepperStatePtr);
 void stepperUpdate(StepperStatePtr, uint16_t);
 void stepperStep(StepperStatePtr, StepperRotationDir);
 void stepperEnable(StepperStatePtr, bool);

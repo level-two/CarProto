@@ -22,5 +22,6 @@ typedef Button* ButtonPtr;
 
 ButtonPtr buttonSetup(volatile uint8_t* portReg, volatile uint8_t* pinReg, uint8_t buttonPin);
 bool buttonStatus(ButtonPtr);
+void buttonRelease(ButtonPtr);
 
 #endif /* BUTTON_H_ */

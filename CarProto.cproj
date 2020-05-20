@@ -164,6 +164,7 @@
     <Folder Include="Sources\common" />
     <Folder Include="Sources\button" />
     <Folder Include="Sources\steer" />
+    <Folder Include="Sources\steer\states" />
     <Folder Include="Sources\stepper\driver" />
     <Folder Include="Sources\stepper\states" />
     <Folder Include="Sources\timer" />
@@ -186,6 +187,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\steer\states\state.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\steer\states\state.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\steer\steer.c">
@@ -222,6 +229,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\stepper\states\initialState.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\stepper\states\releaseState.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\stepper\states\releaseState.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\stepper\states\state.c">

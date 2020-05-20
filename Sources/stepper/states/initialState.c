@@ -7,10 +7,10 @@
 
 #include "initialState.h"
 #include "idleState.h"
+#include "../driver/driver.h"
 
-void transitionToInitial(StepperStatePtr state, StepperConfigPtr config) {
+void transitionToInitial(StepperStatePtr state) {
     defaultImplementation(state);
-    state->config = config;
     stepperDriverSetup(state->config);
     transitionToIdle(state);
 }

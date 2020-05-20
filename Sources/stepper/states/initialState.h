@@ -9,8 +9,7 @@
 #define STEPPER_INITIAL_STATE_H_
 
 #include "state.h"
-#include "../driver/driver.h"
 
-void transitionToInitial(StepperStatePtr, StepperConfigPtr);
+void transitionToInitial(StepperStatePtr);
 
 #endif /* STEPPER_INITIAL_STATE_H_ */

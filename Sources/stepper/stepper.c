@@ -33,9 +33,15 @@ StepperStatePtr stepperSetup(
         return NULL;
     }
 
-    transitionToInitial(state, config);
+    state->config = config;
+    transitionToInitial(state);
 
     return state;
+}
+
+void stepperRelease(StepperStatePtr state) {
+    state->release(state);
+    free(state);
 }
 
 void stepperUpdate(StepperStatePtr state, uint16_t dt) {

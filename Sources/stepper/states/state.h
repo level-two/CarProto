@@ -17,11 +17,13 @@ typedef struct StepperState* StepperStatePtr;
 typedef void (*UpdateEvent)(StepperStatePtr, uint16_t);
 typedef void (*StepEvent)(StepperStatePtr, bool);
 typedef void (*EnableEvent)(StepperStatePtr, bool);
+typedef void (*ReleaseEvent)(StepperStatePtr);
 
 struct StepperState {
     UpdateEvent update;
     StepEvent step;
     EnableEvent enable;
+    ReleaseEvent release;
 
     bool isIdle;
     uint16_t duration;

@@ -25,3 +25,8 @@ ButtonPtr buttonSetup(volatile uint8_t* portReg, volatile uint8_t* pinReg, uint8
 bool buttonStatus(ButtonPtr button) {
     return readBit(button->pinReg, button->buttonPin);
 }
+
+void buttonRelease(ButtonPtr button) {
+    clearBit(button->portReg, button->buttonPin);
+    free(button);
+}

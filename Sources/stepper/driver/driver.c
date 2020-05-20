@@ -12,6 +12,10 @@ void stepperDriverSetup(StepperConfigPtr config) {
     setBits(config->ddrReg, bitVector3(config->dirPin, config->stepPin, config->sleepPin));
 }
 
+void stepperDriverRelease(StepperConfigPtr config) {
+    clearBits(config->ddrReg, bitVector3(config->dirPin, config->stepPin, config->sleepPin));
+}
+
 void stepperDriverSetDir(StepperConfigPtr config, bool val) {
     writeBit(config->portReg, config->dirPin, val);
 }
