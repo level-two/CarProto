@@ -163,7 +163,9 @@
     <Folder Include="Sources\libs\avr-uart" />
     <Folder Include="Sources\common" />
     <Folder Include="Sources\button" />
-    <Folder Include="Sources\stepper\protocolStates" />
+    <Folder Include="Sources\steer" />
+    <Folder Include="Sources\stepper\driver" />
+    <Folder Include="Sources\stepper\states" />
     <Folder Include="Sources\timer" />
     <Folder Include="Sources\stepper" />
   </ItemGroup>
@@ -186,61 +188,58 @@
     <Compile Include="Sources\main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\driver.c">
+    <Compile Include="Sources\steer\steer.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocol.c">
+    <Compile Include="Sources\steer\steer.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocol.h">
+    <Compile Include="Sources\stepper\driver\driver.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocolStates\disabledState.c">
+    <Compile Include="Sources\stepper\driver\driver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocolStates\disabledState.h">
+    <Compile Include="Sources\stepper\states\disabledState.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocolStates\enablingState.c">
+    <Compile Include="Sources\stepper\states\disabledState.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocolStates\enablingState.h">
+    <Compile Include="Sources\stepper\states\enablingState.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocolStates\idleState.c">
+    <Compile Include="Sources\stepper\states\enablingState.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocolStates\idleState.h">
+    <Compile Include="Sources\stepper\states\idleState.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocolStates\initialState.c">
+    <Compile Include="Sources\stepper\states\idleState.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocolStates\initialState.h">
+    <Compile Include="Sources\stepper\states\initialState.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocolStates\protocolLayerState.c">
+    <Compile Include="Sources\stepper\states\initialState.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocolStates\protocolLayerState.h">
+    <Compile Include="Sources\stepper\states\state.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocolStates\stepState.c">
+    <Compile Include="Sources\stepper\states\state.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\protocolStates\stepState.h">
+    <Compile Include="Sources\stepper\states\stepState.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\stepper\states\stepState.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\stepper\stepper.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\stepper\stepper.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\stepper\driver.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\stepper\stepperConfig.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\timer\timer.c">

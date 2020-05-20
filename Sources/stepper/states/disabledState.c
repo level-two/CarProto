@@ -5,20 +5,21 @@
  *  Author: Yauheni
  */
 
+#include <stdbool.h>
 #include "disabledState.h"
-#include "stepper/driver.h"
+#include "../driver/driver.h"
 #include "enablingState.h"
 
-static void enable(ProtocolLayerStatePtr, bool);
+static void enable(StepperStatePtr, bool);
 
-void transitionToDisabled(ProtocolLayerStatePtr state) {
+void transitionToDisabled(StepperStatePtr state) {
     defaultImplementation(state);
     state->enable = enable;
 
-    driverLayerSetSleep(state->config, true);
+    stepperDriverSetSleep(state->config, true);
 }
 
-static void enable(ProtocolLayerStatePtr state, bool isEnabled) {
+static void enable(StepperStatePtr state, bool isEnabled) {
     if (!isEnabled) { return; }
     transitionToEnabling(state);
 }

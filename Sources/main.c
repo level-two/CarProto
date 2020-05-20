@@ -13,14 +13,14 @@
 #include "button/button.h"
 #include "wiring.h"
 
-static StepperHandlerPtr stepperInit();
+static StepperStatePtr stepperInit();
 
 int main(void)
 {
 	uart0_init(UART_BAUD_SELECT_DOUBLE_SPEED(115200, F_CPU));
 	uart1_init(UART_BAUD_SELECT_DOUBLE_SPEED(115200, F_CPU));
 
-    StepperHandlerPtr stepperHandler = stepperInit();
+    StepperStatePtr stepperHandler = stepperInit();
     ButtonPtr leftStopper = buttonSetup(STOPPER_PORT_REG, STOPPER_PIN_REG, STOPPER_LEFT_PIN);
     ButtonPtr rightStopper = buttonSetup(STOPPER_PORT_REG, STOPPER_PIN_REG, STOPPER_RIGHT_PIN);
 
@@ -44,14 +44,11 @@ int main(void)
 	}
 }
 
-static StepperHandlerPtr stepperInit() {
+static StepperStatePtr stepperInit() {
     return stepperSetup(
         DRIVER_PORT_REG,
         DRIVER_DDR_REG,
-        DRIVER_PIN_REG,
         DRIVER_DIR_PIN,
         DRIVER_STEP_PIN,
-        DRIVER_SLEEP_PIN,
-        STOPPER_LEFT_PIN, // FIXME
-        STOPPER_RIGHT_PIN);
+        DRIVER_SLEEP_PIN);
 }

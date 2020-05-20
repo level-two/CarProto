@@ -9,6 +9,9 @@
 #ifndef BITMANIPULATIONS_H_
 #define BITMANIPULATIONS_H_
 
+#include <stdbool.h>
+#include <inttypes.h>
+
 inline uint8_t bitVector(uint8_t bit0) {
     return (1 << bit0);
 }

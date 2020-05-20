@@ -7,67 +7,49 @@
 
 #include <stdlib.h>
 #include "stepper.h"
-#include "stepperConfig.h"
+#include "states/state.h"
+#include "states/initialState.h"
+#include "driver/driver.h"
 
-StepperHandlerPtr stepperSetup(
+StepperStatePtr stepperSetup(
     volatile uint8_t* portReg,
     volatile uint8_t* ddrReg,
-    volatile uint8_t* pinReg,
     uint8_t dirPin,
     uint8_t stepPin,
-    uint8_t sleepPin,
-    uint8_t letfStopperPin,
-    uint8_t rightStopperPin) {
+    uint8_t sleepPin) {
 
     StepperConfigPtr config = (StepperConfigPtr) malloc(sizeof(StepperConfig));
-    if (config == NULL) {
-        return NULL;
-    }
+    if (config == NULL) { return NULL; }
 
     config->portReg = portReg;
     config->ddrReg = ddrReg;
-    config->pinReg = pinReg;
     config->dirPin = dirPin;
     config->stepPin = stepPin;
     config->sleepPin = sleepPin;
-    config->letfStopperPin = letfStopperPin;
-    config->rightStopperPin = rightStopperPin;
 
-    ProtocolLayerStatePtr protocolState = protocolLayerSetup(config);
-    if (protocolState == NULL) {
+    StepperStatePtr state = (StepperStatePtr) malloc(sizeof(struct StepperState));
+    if (state == NULL) {
         free(config);
         return NULL;
     }
 
-    StepperHandlerPtr stepperHandler = (StepperHandlerPtr) malloc(sizeof(StepperHandler));
-    if (stepperHandler == NULL) {
-        free(protocolState);
-        free(config);
-        return NULL;
-    }
+    transitionToInitial(state, config);
 
-    stepperHandler->protocolState = protocolState;
-
-    return stepperHandler;
+    return state;
 }
 
-void stepperEnable(StepperHandlerPtr stepperHandler, bool isEnabled) {
-    protocolLayerEnable(stepperHandler->protocolState, isEnabled);
+void stepperUpdate(StepperStatePtr state, uint16_t dt) {
+    state->update(state, dt);
 }
 
-void stepperCalibrate(StepperHandlerPtr stepperHandler) {
-
+void stepperStep(StepperStatePtr state, StepperRotationDir dir) {
+    state->step(state, (dir == stepCW) ? true : false);
 }
 
-void stepperPark(StepperHandlerPtr stepperHandler, StepperParkPosition position)
-{
-    // assert(minStep != maxStep)
+void stepperEnable(StepperStatePtr state, bool isEnabled) {
+    state->enable(state, isEnabled);
 }
 
-StepperState stepperState(StepperHandlerPtr stepperHandler) {
-    return stepperStateDisabled;
-}
-
-StepperParkPosition stepperCurrentPosition(StepperHandlerPtr stepperHandler) {
-    return stepperParkedMiddle;
+bool stepperIsBusy(StepperStatePtr state) {
+    return !state->isIdle;
 }

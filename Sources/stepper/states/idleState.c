@@ -5,14 +5,15 @@
  *  Author: Yauheni
  */
 
+#include <stdbool.h>
 #include "idleState.h"
 #include "disabledState.h"
 #include "stepState.h"
 
-static void step(ProtocolLayerStatePtr, StepDir);
-static void enable(ProtocolLayerStatePtr, bool);
+static void step(StepperStatePtr, bool);
+static void enable(StepperStatePtr, bool);
 
-void transitionToIdle(ProtocolLayerStatePtr state) {
+void transitionToIdle(StepperStatePtr state) {
     defaultImplementation(state);
 
     state->step = step;
@@ -20,11 +21,11 @@ void transitionToIdle(ProtocolLayerStatePtr state) {
     state->isIdle = true;
 }
 
-static void step(ProtocolLayerStatePtr state, StepDir dir) {
+static void step(StepperStatePtr state, bool dir) {
     transitionToStep(state, dir);
 }
 
-static void enable(ProtocolLayerStatePtr state, bool isEnabled) {
+static void enable(StepperStatePtr state, bool isEnabled) {
     if (isEnabled) { return; }
     transitionToDisabled(state);
 }

@@ -9,40 +9,20 @@
 #define STEPPER_H_
 
 #include <stdbool.h>
-#include "protocol.h"
+#include <inttypes.h>
+#include "states/state.h"
 
-typedef struct {
-    ProtocolLayerStatePtr protocolState;
-} StepperHandler;
+typedef enum { stepCW, stepCCW } StepperRotationDir;
 
-typedef StepperHandler* StepperHandlerPtr;
-
-typedef enum {
-    stepperParkedLeft,
-    stepperParkedRight,
-    stepperParkedMiddle
-} StepperParkPosition;
-
-typedef enum {
-    stepperStateIdle,
-    stepperStateCalibrating,
-    stepperStateParking,
-    stepperStateDisabled
-} StepperState;
-
-StepperHandlerPtr stepperSetup(
+StepperStatePtr stepperSetup(
     volatile uint8_t* portReg,
     volatile uint8_t* ddrReg,
-    volatile uint8_t* pinReg,
     uint8_t dirPin,
     uint8_t stepPin,
-    uint8_t sleepPin,
-    uint8_t letfStopperPin,
-    uint8_t rightStopperPin);
-void stepperEnable(StepperHandlerPtr, bool);
-void stepperCalibrate(StepperHandlerPtr);
-void stepperPark(StepperHandlerPtr, StepperParkPosition);
-StepperState stepperState(StepperHandlerPtr);
-StepperParkPosition stepperCurrentPosition(StepperHandlerPtr);
+    uint8_t sleepPin);
+void stepperUpdate(StepperStatePtr, uint16_t);
+void stepperStep(StepperStatePtr, StepperRotationDir);
+void stepperEnable(StepperStatePtr, bool);
+bool stepperIsBusy(StepperStatePtr);
 
 #endif /* STEPPER_H_ */
