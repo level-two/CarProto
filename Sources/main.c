@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include "avr-uart/uart.h"
 #include "stepper/stepper.h"
+#include "button/button.h"
 #include "wiring.h"
 
 static StepperHandlerPtr stepperInit();
@@ -20,7 +21,10 @@ int main(void)
 	uart1_init(UART_BAUD_SELECT_DOUBLE_SPEED(115200, F_CPU));
 
     StepperHandlerPtr stepperHandler = stepperInit();
-     // TODO: Handle error - disable hardware and notify about error
+    ButtonPtr leftStopper = buttonSetup(STOPPER_PORT_REG, STOPPER_PIN_REG, STOPPER_LEFT_PIN);
+    ButtonPtr rightStopper = buttonSetup(STOPPER_PORT_REG, STOPPER_PIN_REG, STOPPER_RIGHT_PIN);
+
+    // TODO: Handle error - disable hardware and notify about error
     if (stepperHandler == NULL) return -1;
 
 	while(1) {
@@ -42,12 +46,12 @@ int main(void)
 
 static StepperHandlerPtr stepperInit() {
     return stepperSetup(
-        &DRIVER_PORT_REG, // TODO: Check this!
-        &DRIVER_DDR_REG,
-        &DRIVER_PIN_REG,
+        DRIVER_PORT_REG,
+        DRIVER_DDR_REG,
+        DRIVER_PIN_REG,
         DRIVER_DIR_PIN,
         DRIVER_STEP_PIN,
         DRIVER_SLEEP_PIN,
-        DRIVER_LEFT_STOPPER_PIN,
-        DRIVER_RIGHT_STOPPER_PIN);
+        STOPPER_LEFT_PIN, // FIXME
+        STOPPER_RIGHT_PIN);
 }

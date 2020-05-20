@@ -162,11 +162,18 @@
     <Folder Include="Sources\libs" />
     <Folder Include="Sources\libs\avr-uart" />
     <Folder Include="Sources\common" />
+    <Folder Include="Sources\button" />
     <Folder Include="Sources\stepper\protocolStates" />
     <Folder Include="Sources\timer" />
     <Folder Include="Sources\stepper" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sources\button\button.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\button\button.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Sources\common\bitManipulations.h">
       <SubType>compile</SubType>
     </Compile>
