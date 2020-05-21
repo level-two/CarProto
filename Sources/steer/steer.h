@@ -9,6 +9,21 @@
 #define STEER_H_
 
 #include <stdbool.h>
+#include <inttypes.h>
+#include "states/state.h"
+
+SteerStatePtr steerSetup(
+    volatile uint8_t* portReg,
+    volatile uint8_t* ddrReg,
+    volatile uint8_t* pinReg,
+    uint8_t dirPin,
+    uint8_t stepPin,
+    uint8_t sleepPin,
+    uint8_t letfStopperPin,
+    uint8_t rightStopperPin);
+
+
+
 //#include "stepper.h"
 //
 //typedef struct {

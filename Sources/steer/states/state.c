@@ -10,6 +10,6 @@
 
 static void defaultUpdate(SteerStatePtr state, uint16_t dt) { }
 
-void defaultImplementation(SteerStatePtr state) {
+void defaultSteerStateImplementation(SteerStatePtr state) {
     state->update = defaultUpdate;
 }

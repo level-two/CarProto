@@ -6,14 +6,14 @@
  */
 
 #include <stdbool.h>
-#include "disabledState.h"
+#include "disabled.h"
 #include "../driver/driver.h"
-#include "enablingState.h"
+#include "enabling.h"
 
 static void enable(StepperStatePtr, bool);
 
-void transitionToDisabled(StepperStatePtr state) {
-    defaultImplementation(state);
+void stepperTransitionToDisabled(StepperStatePtr state) {
+    defaultStepperStateImplementation(state);
     state->enable = enable;
 
     stepperDriverSetSleep(state->config, true);
@@ -21,5 +21,5 @@ void transitionToDisabled(StepperStatePtr state) {
 
 static void enable(StepperStatePtr state, bool isEnabled) {
     if (!isEnabled) { return; }
-    transitionToEnabling(state);
+    stepperTransitionToEnabling(state);
 }

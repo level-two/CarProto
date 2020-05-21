@@ -8,16 +8,16 @@
 #include <stdbool.h>
 #include <inttypes.h>
 #include <util/delay.h>
-#include "stepState.h"
-#include "idleState.h"
+#include "step.h"
+#include "idle.h"
 #include "../driver/driver.h"
 
 #define STEP_DURATION_US 1000
 
 static void update(StepperStatePtr, uint16_t);
 
-void transitionToStep(StepperStatePtr state, bool dir) {
-    defaultImplementation(state);
+void stepperTransitionToStep(StepperStatePtr state, bool dir) {
+    defaultStepperStateImplementation(state);
     state->update = update;
 
     stepperDriverSetDir(state->config, dir);
@@ -33,6 +33,6 @@ static void update(StepperStatePtr state, uint16_t dt) {
     if (state->duration > dt) {
         state->duration -= dt;
     } else {
-        transitionToIdle(state);
+        stepperTransitionToIdle(state);
     }
 }

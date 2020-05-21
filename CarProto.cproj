@@ -189,6 +189,18 @@
     <Compile Include="Sources\main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Sources\steer\states\idle.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\steer\states\idle.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\steer\states\initial.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\steer\states\initial.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Sources\steer\states\state.c">
       <SubType>compile</SubType>
     </Compile>
@@ -207,34 +219,34 @@
     <Compile Include="Sources\stepper\driver\driver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\states\disabledState.c">
+    <Compile Include="Sources\stepper\states\disabled.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\states\disabledState.h">
+    <Compile Include="Sources\stepper\states\disabled.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\states\enablingState.c">
+    <Compile Include="Sources\stepper\states\enabling.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\states\enablingState.h">
+    <Compile Include="Sources\stepper\states\enabling.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\states\idleState.c">
+    <Compile Include="Sources\stepper\states\idle.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\states\idleState.h">
+    <Compile Include="Sources\stepper\states\idle.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\states\initialState.c">
+    <Compile Include="Sources\stepper\states\initial.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\states\initialState.h">
+    <Compile Include="Sources\stepper\states\initial.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\states\releaseState.c">
+    <Compile Include="Sources\stepper\states\release.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\states\releaseState.h">
+    <Compile Include="Sources\stepper\states\release.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\stepper\states\state.c">
@@ -243,10 +255,10 @@
     <Compile Include="Sources\stepper\states\state.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\states\stepState.c">
+    <Compile Include="Sources\stepper\states\step.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\stepper\states\stepState.h">
+    <Compile Include="Sources\stepper\states\step.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\stepper\stepper.c">

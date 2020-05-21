@@ -14,16 +14,16 @@
 
 typedef struct StepperState* StepperStatePtr;
 
-typedef void (*UpdateEvent)(StepperStatePtr, uint16_t);
-typedef void (*StepEvent)(StepperStatePtr, bool);
-typedef void (*EnableEvent)(StepperStatePtr, bool);
-typedef void (*ReleaseEvent)(StepperStatePtr);
+typedef void (*StepperUpdateEvent)(StepperStatePtr, uint16_t);
+typedef void (*StepperStepEvent)(StepperStatePtr, bool);
+typedef void (*StepperEnableEvent)(StepperStatePtr, bool);
+typedef void (*StepperReleaseEvent)(StepperStatePtr);
 
 struct StepperState {
-    UpdateEvent update;
-    StepEvent step;
-    EnableEvent enable;
-    ReleaseEvent release;
+    StepperUpdateEvent update;
+    StepperStepEvent step;
+    StepperEnableEvent enable;
+    StepperReleaseEvent release;
 
     bool isIdle;
     uint16_t duration;
@@ -31,6 +31,6 @@ struct StepperState {
     StepperConfigPtr config;
 };
 
-void defaultImplementation(StepperStatePtr state);
+void defaultStepperStateImplementation(StepperStatePtr state);
 
 #endif /* STEPPER_STATE_H_ */

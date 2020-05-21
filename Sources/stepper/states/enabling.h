@@ -1,5 +1,5 @@
 /*
- * enablingState.h
+ * enabling.h
  *
  * Created: 13.05.2020 13:20:04
  *  Author: Yauheni
@@ -10,6 +10,6 @@
 
 #include "state.h"
 
-void transitionToEnabling(StepperStatePtr state);
+void stepperTransitionToEnabling(StepperStatePtr state);
 
 #endif /* STEPPER_ENABLING_STATE_H_ */

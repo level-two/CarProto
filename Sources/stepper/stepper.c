@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include "stepper.h"
 #include "states/state.h"
-#include "states/initialState.h"
+#include "states/initial.h"
 #include "driver/driver.h"
 
 StepperStatePtr stepperSetup(
@@ -34,7 +34,7 @@ StepperStatePtr stepperSetup(
     }
 
     state->config = config;
-    transitionToInitial(state);
+    stepperTransitionToInitial(state);
 
     return state;
 }

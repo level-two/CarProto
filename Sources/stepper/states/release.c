@@ -7,11 +7,11 @@
 
 #include <stdbool.h>
 #include <util/delay.h>
-#include "releaseState.h"
+#include "release.h"
 #include "../driver/driver.h"
 
-void transitionToRelease(StepperStatePtr state) {
-    defaultImplementation(state);
+void stepperTransitionToRelease(StepperStatePtr state) {
+    defaultStepperStateImplementation(state);
     stepperDriverSetSleep(state->config, true);
     _delay_us(1);
     stepperDriverRelease(state->config);

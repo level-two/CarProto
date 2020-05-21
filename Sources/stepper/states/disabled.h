@@ -1,5 +1,5 @@
 /*
- * disabledState.h
+ * disabled.h
  *
  * Created: 13.05.2020 12:56:34
  *  Author: Yauheni
@@ -10,6 +10,6 @@
 
 #include "state.h"
 
-void transitionToDisabled(StepperStatePtr state);
+void stepperTransitionToDisabled(StepperStatePtr state);
 
 #endif /* STEPPER_DISABLED_STATE_H_ */

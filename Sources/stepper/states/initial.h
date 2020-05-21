@@ -1,5 +1,5 @@
 /*
- * initialState.h
+ * initial.h
  *
  * Created: 13.05.2020 10:55:15
  *  Author: Yauheni
@@ -10,6 +10,6 @@
 
 #include "state.h"
 
-void transitionToInitial(StepperStatePtr);
+void stepperTransitionToInitial(StepperStatePtr);
 
 #endif /* STEPPER_INITIAL_STATE_H_ */

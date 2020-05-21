@@ -6,15 +6,15 @@
  */
 
 #include <stdbool.h>
-#include "idleState.h"
-#include "disabledState.h"
-#include "stepState.h"
+#include "idle.h"
+#include "disabled.h"
+#include "step.h"
 
 static void step(StepperStatePtr, bool);
 static void enable(StepperStatePtr, bool);
 
-void transitionToIdle(StepperStatePtr state) {
-    defaultImplementation(state);
+void stepperTransitionToIdle(StepperStatePtr state) {
+    defaultStepperStateImplementation(state);
 
     state->step = step;
     state->enable = enable;
@@ -22,10 +22,10 @@ void transitionToIdle(StepperStatePtr state) {
 }
 
 static void step(StepperStatePtr state, bool dir) {
-    transitionToStep(state, dir);
+    stepperTransitionToStep(state, dir);
 }
 
 static void enable(StepperStatePtr state, bool isEnabled) {
     if (isEnabled) { return; }
-    transitionToDisabled(state);
+    stepperTransitionToDisabled(state);
 }

@@ -1,5 +1,5 @@
 /*
- * idleState.h
+ * idle.h
  *
  * Created: 13.05.2020 11:01:50
  *  Author: Yauheni
@@ -10,6 +10,6 @@
 
 #include "state.h"
 
-void transitionToIdle(StepperStatePtr state);
+void stepperTransitionToIdle(StepperStatePtr state);
 
 #endif /* STEPPER_IDLE_STATE_H_ */

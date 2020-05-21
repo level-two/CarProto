@@ -14,16 +14,16 @@
 
 typedef struct SteerState* SteerStatePtr;
 
-typedef void (*UpdateEvent)(SteerStatePtr, uint16_t);
+typedef void (*SteerUpdateEvent)(SteerStatePtr, uint16_t);
 
 struct SteerState {
-    UpdateEvent update;
+    SteerUpdateEvent update;
 
     StepperStatePtr stepper;
     ButtonPtr leftStopper;
     ButtonPtr rightStopper;
 };
 
-void defaultImplementation(SteerStatePtr state);
+void defaultSteerStateImplementation(SteerStatePtr state);
 
 #endif /* STEER_STATE_H_ */

@@ -1,5 +1,5 @@
 /*
- * stepState.h
+ * step.h
  *
  * Created: 13.05.2020 12:08:22
  *  Author: Yauheni
@@ -10,6 +10,6 @@
 
 #include "state.h"
 
-void transitionToStep(StepperStatePtr state, bool dir);
+void stepperTransitionToStep(StepperStatePtr state, bool dir);
 
 #endif /* STEPPER_STEP_STATE_H_ */

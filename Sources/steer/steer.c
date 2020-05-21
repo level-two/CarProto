@@ -9,8 +9,9 @@
 #include "steer.h"
 #include "stepper/stepper.h"
 #include "button/button.h"
+#include "states/initial.h"
 
-bool steerSetup(
+SteerStatePtr steerSetup(
     volatile uint8_t* portReg,
     volatile uint8_t* ddrReg,
     volatile uint8_t* pinReg,
@@ -20,32 +21,39 @@ bool steerSetup(
     uint8_t letfStopperPin,
     uint8_t rightStopperPin) {
 
-    // TODO: Create steer state
-
-    StepperStatePtr stepper = stepperSetup(
-        DRIVER_PORT_REG,
-        DRIVER_DDR_REG,
-        DRIVER_DIR_PIN,
-        DRIVER_STEP_PIN,
-        DRIVER_SLEEP_PIN);
-    if (stepper == NULL) { return false; }
-
-    ButtonPtr leftStopper = buttonSetup(STOPPER_PORT_REG, STOPPER_PIN_REG, STOPPER_LEFT_PIN);
-    if (leftStopper == NULL) {
-        stepperRelease(stepper);
-        return false;
+    StepperStatePtr stepper = stepperSetup(portReg, ddrReg, dirPin, stepPin, sleepPin);
+    if (stepper == NULL) {
+        return NULL;
     }
 
-    ButtonPtr rightStopper = buttonSetup(STOPPER_PORT_REG, STOPPER_PIN_REG, STOPPER_RIGHT_PIN);
+    ButtonPtr leftStopper = buttonSetup(portReg, pinReg, letfStopperPin);
+    if (leftStopper == NULL) {
+        stepperRelease(stepper);
+        return NULL;
+    }
+
+    ButtonPtr rightStopper = buttonSetup(portReg, pinReg, rightStopperPin);
     if (rightStopper == NULL) {
         stepperRelease(stepper);
         buttonRelease(leftStopper);
-        return false;
+        return NULL;
     }
 
-    // TODO
+    SteerStatePtr steer = (SteerStatePtr) malloc(sizeof(struct SteerState));
+    if (steer == NULL) {
+        stepperRelease(stepper);
+        buttonRelease(leftStopper);
+        buttonRelease(rightStopper);
+        return NULL;
+    }
 
-    return true;
+    steer->stepper = stepper;
+    steer->leftStopper = leftStopper;
+    steer->rightStopper = rightStopper;
+
+    steerTransitionToInitial(steer);
+
+    return steer;
 }
 
 //
