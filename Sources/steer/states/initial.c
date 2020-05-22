@@ -6,10 +6,13 @@
  */
 
 #include "initial.h"
-#include "idle.h"
+#include "calibration.h"
 
 void steerTransitionToInitial(SteerStatePtr state) {
     defaultSteerStateImplementation(state);
 
-    steerTransitionToIdle(state);
+    state->currentPosition = 0;
+    state->totalSteps = 0;
+
+    steerTransitionToCalibration(state);
 }

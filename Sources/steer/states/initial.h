@@ -5,7 +5,6 @@
  *  Author: Yauheni
  */
 
-
 #ifndef STEER_INITIAL_STATE_H_
 #define STEER_INITIAL_STATE_H_
 

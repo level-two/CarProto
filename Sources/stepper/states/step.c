@@ -12,7 +12,7 @@
 #include "idle.h"
 #include "../driver/driver.h"
 
-#define STEP_DURATION_US 1000
+#define STEP_DURATION_US 10000
 
 static void update(StepperStatePtr, uint16_t);
 

@@ -11,6 +11,7 @@
 #include <stdbool.h>
 #include <inttypes.h>
 #include "states/state.h"
+#include "states/steerPosition.h"
 
 SteerStatePtr steerSetup(
     volatile uint8_t* portReg,
@@ -22,42 +23,10 @@ SteerStatePtr steerSetup(
     uint8_t letfStopperPin,
     uint8_t rightStopperPin);
 
-
-
-//#include "stepper.h"
-//
-//typedef struct {
-    //StepperStatePtr stepperState;
-//} StepperHandler;
-//
-//typedef StepperHandler* StepperHandlerPtr;
-//
-//typedef enum {
-    //stepperParkedLeft,
-    //stepperParkedRight,
-    //stepperParkedMiddle
-//} StepperParkPosition;
-//
-//typedef enum {
-    //stepperStateIdle,
-    //stepperStateCalibrating,
-    //stepperStateParking,
-    //stepperStateDisabled
-//} StepperState;
-//
-//StepperHandlerPtr stepperSetup(
-//volatile uint8_t* portReg,
-//volatile uint8_t* ddrReg,
-//volatile uint8_t* pinReg,
-//uint8_t dirPin,
-//uint8_t stepPin,
-//uint8_t sleepPin,
-//uint8_t letfStopperPin,
-//uint8_t rightStopperPin);
-//void stepperEnable(StepperHandlerPtr, bool);
-//void stepperCalibrate(StepperHandlerPtr);
-//void stepperPark(StepperHandlerPtr, StepperParkPosition);
-//StepperState stepperState(StepperHandlerPtr);
-//StepperParkPosition stepperCurrentPosition(StepperHandlerPtr);
+void steerRelease(SteerStatePtr);
+void steerUpdate(SteerStatePtr, uint16_t);
+void steerSetPosition(SteerStatePtr, SteerPosition);
+SteerPosition steerCurrentPosition(SteerStatePtr);
+bool steerIsBusy(SteerStatePtr);
 
 #endif /* STEER_H_ */

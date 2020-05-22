@@ -21,59 +21,51 @@ SteerStatePtr steerSetup(
     uint8_t letfStopperPin,
     uint8_t rightStopperPin) {
 
-    StepperStatePtr stepper = stepperSetup(portReg, ddrReg, dirPin, stepPin, sleepPin);
-    if (stepper == NULL) {
+    SteerStatePtr state = (SteerStatePtr) malloc(sizeof(struct SteerState));
+    if (state == NULL) return NULL;
+
+    state->stepper = stepperSetup(portReg, ddrReg, dirPin, stepPin, sleepPin);
+    state->leftStopper = buttonSetup(portReg, pinReg, letfStopperPin);
+    state->rightStopper = buttonSetup(portReg, pinReg, rightStopperPin);
+
+    if (state->stepper == NULL || state->leftStopper == NULL || state->rightStopper == NULL) {
+        steerRelease(state);
         return NULL;
     }
 
-    ButtonPtr leftStopper = buttonSetup(portReg, pinReg, letfStopperPin);
-    if (leftStopper == NULL) {
-        stepperRelease(stepper);
-        return NULL;
-    }
+    steerTransitionToInitial(state);
 
-    ButtonPtr rightStopper = buttonSetup(portReg, pinReg, rightStopperPin);
-    if (rightStopper == NULL) {
-        stepperRelease(stepper);
-        buttonRelease(leftStopper);
-        return NULL;
-    }
-
-    SteerStatePtr steer = (SteerStatePtr) malloc(sizeof(struct SteerState));
-    if (steer == NULL) {
-        stepperRelease(stepper);
-        buttonRelease(leftStopper);
-        buttonRelease(rightStopper);
-        return NULL;
-    }
-
-    steer->stepper = stepper;
-    steer->leftStopper = leftStopper;
-    steer->rightStopper = rightStopper;
-
-    steerTransitionToInitial(steer);
-
-    return steer;
+    return state;
 }
 
-//
-//void stepperEnable(StepperHandlerPtr stepperHandler, bool isEnabled) {
-    //stepperEnable(stepperHandler->stepperState, isEnabled);
-//}
-//
-//void stepperCalibrate(StepperHandlerPtr stepperHandler) {
-//
-//}
-//
-//void stepperPark(StepperHandlerPtr stepperHandler, StepperParkPosition position)
-//{
-    //// assert(minStep != maxStep)
-//}
-//
-//StepperState stepperState(StepperHandlerPtr stepperHandler) {
-    //return stepperStateDisabled;
-//}
-//
-//StepperParkPosition stepperCurrentPosition(StepperHandlerPtr stepperHandler) {
-    //return stepperParkedMiddle;
-//}
+void steerRelease(SteerStatePtr state) {
+    if (state == NULL) return;
+    stepperRelease(state->stepper);
+    buttonRelease(state->leftStopper);
+    buttonRelease(state->rightStopper);
+    free(state);
+}
+
+void steerUpdate(SteerStatePtr state, uint16_t dt) {
+    state->update(state, dt);
+}
+
+void steerSetPosition(SteerStatePtr state, SteerPosition position) {
+    state->setPosition(state, position);
+}
+
+bool steerIsBusy(SteerStatePtr state) {
+    return !state->isIdle;
+}
+
+SteerPosition steerCurrentPosition(SteerStatePtr state) {
+    if (state->currentPosition == 0) {
+        return steerPositionLeft;
+    }
+
+    if (state->currentPosition == state->totalSteps) {
+        return steerPositionRight;
+    }
+
+    return steerPositionMiddle;
+}

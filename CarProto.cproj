@@ -189,6 +189,12 @@
     <Compile Include="Sources\main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Sources\steer\states\calibration.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\steer\states\calibration.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Sources\steer\states\idle.c">
       <SubType>compile</SubType>
     </Compile>
@@ -201,10 +207,19 @@
     <Compile Include="Sources\steer\states\initial.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Sources\steer\states\setPosition.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\steer\states\setPosition.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Sources\steer\states\state.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\steer\states\state.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\steer\states\steerPosition.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\steer\steer.c">

@@ -11,7 +11,7 @@
 
 ButtonPtr buttonSetup(volatile uint8_t* portReg, volatile uint8_t* pinReg, uint8_t buttonPin) {
     ButtonPtr button = (ButtonPtr) malloc(sizeof(Button));
-    if (button == NULL) { return NULL; }
+    if (button == NULL) return NULL;
 
     button->portReg = portReg;
     button->pinReg = pinReg;
@@ -22,11 +22,13 @@ ButtonPtr buttonSetup(volatile uint8_t* portReg, volatile uint8_t* pinReg, uint8
     return button;
 }
 
-bool buttonStatus(ButtonPtr button) {
-    return readBit(button->pinReg, button->buttonPin);
+bool buttonIsPressed(ButtonPtr button) {
+    bool pinState = readBit(button->pinReg, button->buttonPin);
+    return !pinState; // Pin pulled low when button is pressed
 }
 
 void buttonRelease(ButtonPtr button) {
+    if (button == NULL) return;
     clearBit(button->portReg, button->buttonPin);
     free(button);
 }

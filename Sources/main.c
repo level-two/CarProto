@@ -9,23 +9,20 @@
 #include <util/delay.h>
 #include <stdlib.h>
 #include "avr-uart/uart.h"
-#include "stepper/stepper.h"
-#include "button/button.h"
+#include "steer/steer.h"
 #include "wiring.h"
 
-static StepperStatePtr stepperInit();
+static SteerStatePtr steerInit();
 
 int main(void)
 {
 	uart0_init(UART_BAUD_SELECT_DOUBLE_SPEED(115200, F_CPU));
 	uart1_init(UART_BAUD_SELECT_DOUBLE_SPEED(115200, F_CPU));
 
-    StepperStatePtr stepperHandler = stepperInit();
-    ButtonPtr leftStopper = buttonSetup(STOPPER_PORT_REG, STOPPER_PIN_REG, STOPPER_LEFT_PIN);
-    ButtonPtr rightStopper = buttonSetup(STOPPER_PORT_REG, STOPPER_PIN_REG, STOPPER_RIGHT_PIN);
+    SteerStatePtr steer = steerInit();
 
     // TODO: Handle error - disable hardware and notify about error
-    if (stepperHandler == NULL) return -1;
+    if (steer == NULL) return -1;
 
 	while(1) {
 		_delay_ms(10);
@@ -44,11 +41,14 @@ int main(void)
 	}
 }
 
-static StepperStatePtr stepperInit() {
-    return stepperSetup(
-        DRIVER_PORT_REG,
-        DRIVER_DDR_REG,
-        DRIVER_DIR_PIN,
-        DRIVER_STEP_PIN,
-        DRIVER_SLEEP_PIN);
+static SteerStatePtr steerInit() {
+    return steerSetup(
+        STEER_PORT_REG,
+        STEER_DDR_REG,
+        STEER_PIN_REG,
+        STEER_DIR_PIN,
+        STEER_STEP_PIN,
+        STEER_SLEEP_PIN,
+        STEER_LEFT_PIN,
+        STEER_RIGHT_PIN);
 }

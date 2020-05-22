@@ -19,7 +19,7 @@ StepperStatePtr stepperSetup(
     uint8_t sleepPin) {
 
     StepperConfigPtr config = (StepperConfigPtr) malloc(sizeof(StepperConfig));
-    if (config == NULL) { return NULL; }
+    if (config == NULL) return NULL;
 
     config->portReg = portReg;
     config->ddrReg = ddrReg;
@@ -40,6 +40,7 @@ StepperStatePtr stepperSetup(
 }
 
 void stepperRelease(StepperStatePtr state) {
+    if (state == NULL) return;
     state->release(state);
     free(state);
 }
