@@ -17,7 +17,6 @@ static SteerStatePtr steerInit();
 
 int main(void)
 {
-	uart0_init(UART_BAUD_SELECT_DOUBLE_SPEED(115200, F_CPU));
 	uart1_init(UART_BAUD_SELECT_DOUBLE_SPEED(115200, F_CPU));
 
     SteerStatePtr steer = steerInit();
@@ -31,16 +30,23 @@ int main(void)
 
         steerUpdate(steer, dt);
 
-        if (uart0_available()) {
-            uint16_t c0 = uart0_getc();
-            uart0_putc(c0 & 0xff);
-            uart1_putc(c0 & 0xff);
-        }
-
         if (uart1_available()) {
-            uint16_t c1 = uart1_getc();
-            uart0_putc(c1 & 0xff);
-            uart1_putc(c1 & 0xff);
+            uint8_t command = (uint8_t)uart1_getc();
+
+            switch (command) {
+            case 'L':
+                steerSetPosition(steer, steerPositionLeft);
+                uart1_puts("Turning left");
+                break;
+            case 'R':
+                steerSetPosition(steer, steerPositionLeft);
+                uart1_puts("Turning right");
+                break;
+            case 'M':
+                steerSetPosition(steer, steerPositionLeft);
+                uart1_puts("Turning middle");
+                break;
+            }
         }
 
 		_delay_us(100);
