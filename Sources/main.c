@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include "avr-uart/uart.h"
 #include "steer/steer.h"
+#include "timer/timer0.h"
 #include "wiring.h"
 
 static SteerStatePtr steerInit();
@@ -20,24 +21,29 @@ int main(void)
 	uart1_init(UART_BAUD_SELECT_DOUBLE_SPEED(115200, F_CPU));
 
     SteerStatePtr steer = steerInit();
-
-    // TODO: Handle error - disable hardware and notify about error
     if (steer == NULL) return -1;
 
+    timer0Start();
+
 	while(1) {
-		_delay_ms(10);
-		uint16_t c0 = uart0_getc();
+        uint16_t dt = timer0Microseconds();
+        timer0Reset();
 
-		if (c0 != UART_NO_DATA) {
-    		uart0_putc(c0 & 0xff);
-    		uart1_putc(c0 & 0xff);
-		}
+        steerUpdate(steer, dt);
 
-        uint16_t c1 = uart1_getc();
-        if (c1 != UART_NO_DATA) {
+        if (uart0_available()) {
+            uint16_t c0 = uart0_getc();
+            uart0_putc(c0 & 0xff);
+            uart1_putc(c0 & 0xff);
+        }
+
+        if (uart1_available()) {
+            uint16_t c1 = uart1_getc();
             uart0_putc(c1 & 0xff);
             uart1_putc(c1 & 0xff);
         }
+
+		_delay_us(100);
 	}
 }
 

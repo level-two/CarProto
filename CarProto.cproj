@@ -282,10 +282,10 @@
     <Compile Include="Sources\stepper\stepper.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\timer\timer.c">
+    <Compile Include="Sources\timer\timer0.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\timer\timer.h">
+    <Compile Include="Sources\timer\timer0.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\wiring.h">
