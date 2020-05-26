@@ -5,6 +5,7 @@
  *  Author: Yauheni
  */
 
+#include <stdbool.h>
 #include "calibration.h"
 #include "setPosition.h"
 #include "steerPosition.h"
@@ -21,6 +22,8 @@ void steerTransitionToCalibration(SteerStatePtr state) {
     state->update = update;
     state->destPosition = 0;
     state->totalSteps = 0;
+
+    stepperEnable(state->stepper, true);
 }
 
 static void update(SteerStatePtr state, uint16_t dt) {

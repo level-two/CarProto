@@ -5,6 +5,7 @@
  *  Author: Yauheni
  */
 
+#include <stdbool.h>
 #include "setPosition.h"
 #include "idle.h"
 #include "stepper/stepper.h"
@@ -22,6 +23,8 @@ void steerTransitionToSetPosition(SteerStatePtr state, SteerPosition position) {
         (position == steerPositionLeft) ? 0 :
         (position == steerPositionRight) ? state->totalSteps :
         (state->totalSteps >> 1);
+
+    stepperEnable(state->stepper, true);
 }
 
 static void update(SteerStatePtr state, uint16_t dt) {
