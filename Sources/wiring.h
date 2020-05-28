@@ -19,4 +19,9 @@
 #define STEER_LEFT_PIN PINA1
 #define STEER_RIGHT_PIN PINA0
 
+
+#define MOTOR_PORT_REG &PORTA
+#define MOTOR_DDR_REG &DDRA
+#define MOTOR_TURNON_PIN PA2
+
 #endif /* WIRING_H_ */

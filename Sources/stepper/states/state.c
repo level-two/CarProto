@@ -7,10 +7,11 @@
 
 #include "state.h"
 #include "release.h"
+#include "common/unused.h"
 
-static void defaultUpdate(StepperStatePtr state, uint16_t dt) { }
-static void defaultStep(StepperStatePtr state, bool dir) { }
-static void defaultEnable(StepperStatePtr state, bool isEnabled) { }
+static void defaultUpdate(StepperStatePtr, uint16_t);
+static void defaultStep(StepperStatePtr, bool);
+static void defaultEnable(StepperStatePtr, bool);
 
 static void defaultRelease(StepperStatePtr state) {
     stepperTransitionToRelease(state);
@@ -24,4 +25,19 @@ void defaultStepperStateImplementation(StepperStatePtr state) {
 
     state->isIdle = false;
     state->duration = 0;
+}
+
+static void defaultUpdate(StepperStatePtr state, uint16_t dt) {
+    UNUSED(state);
+    UNUSED(dt);
+}
+
+static void defaultStep(StepperStatePtr state, bool dir) {
+    UNUSED(state);
+    UNUSED(dir);
+}
+
+static void defaultEnable(StepperStatePtr state, bool isEnabled) {
+    UNUSED(state);
+    UNUSED(isEnabled);
 }
