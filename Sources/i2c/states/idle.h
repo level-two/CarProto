@@ -3,14 +3,14 @@
  *
  * Created: 29.05.2020 6:52:42
  *  Author: Yauheni
- */ 
+ */
 
 
-#ifndef IDLE_H_
-#define IDLE_H_
+#ifndef I2C_STATE_IDLE_H_
+#define I2C_STATE_IDLE_H_
 
+#include "state.h"
 
+void i2cTransitionToIdle(I2CStatePtr);
 
-
-
-#endif /* IDLE_H_ */
+#endif /* I2C_STATE_IDLE_H_ */

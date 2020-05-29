@@ -1,16 +1,16 @@
 /*
  * address.h
  *
- * Created: 29.05.2020 6:54:45
+ * Created: 29.05.2020 17:04:29
  *  Author: Yauheni
- */ 
+ */
 
 
-#ifndef ADDRESS_H_
-#define ADDRESS_H_
+#ifndef I2C_STATE_ADDRESS_H_
+#define I2C_STATE_ADDRESS_H_
 
+#include "state.h"
 
+void i2cTransitionToAddress(I2CStatePtr);
 
-
-
-#endif /* ADDRESS_H_ */
+#endif /* I2C_STATE_ADDRESS_H_ */

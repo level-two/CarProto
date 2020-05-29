@@ -7,3 +7,6 @@
 
 #include "idle.h"
 
+void i2cTransitionToIdle(I2CStatePtr state) {
+    i2cDefaultStateImplementation(state);
+}

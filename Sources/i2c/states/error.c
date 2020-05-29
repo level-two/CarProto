@@ -6,3 +6,12 @@
  */
 
 #include "error.h"
+#include "idle.h"
+
+void i2cTransitionToError(I2CStatePtr state) {
+    i2cDefaultStateImplementation(state);
+
+    // call callback
+
+    i2cTransitionToIdle(state);
+}
