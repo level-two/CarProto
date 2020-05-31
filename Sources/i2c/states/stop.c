@@ -6,8 +6,9 @@
  */
 
 #include "stop.h"
+#include "i2c/driver/driver.h"
 #include "idle.h"
-#include "error.h"
+#include "completion.h"
 
 static void acknowledge(I2CStatePtr, bool);
 
@@ -18,11 +19,11 @@ void i2cTransitionToStop(I2CStatePtr state) {
 }
 
 static void acknowledge(I2CStatePtr state, bool isSuccess) {
-    if (isSuccess) {
+    //if (isSuccess) {
         i2cTransitionToIdle(state);
-    } else {
-        i2cTransitionToError(state);
-    }
+    //} else {
+        //i2cTransitionToCompletion(state, false);
+    //}
 }
 
 

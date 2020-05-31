@@ -6,8 +6,9 @@
  */
 
 #include "repeatedStart.h"
+#include "i2c/driver/driver.h"
 #include "addressForRead.h"
-#include "error.h"
+#include "completion.h"
 
 static void acknowledge(I2CStatePtr, bool);
 
@@ -21,7 +22,7 @@ static void acknowledge(I2CStatePtr state, bool isSuccess) {
     if (isSuccess) {
         i2cTransitionToAddressForRead(state);
     } else {
-        i2cTransitionToError(state);
+        i2cTransitionToCompletion(state, false);
     }
 }
 

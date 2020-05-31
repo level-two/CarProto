@@ -1,18 +1,18 @@
 /*
- * start.c
+ * addressForRead.c
  *
- * Created: 29.05.2020 6:54:15
+ * Created: 30.05.2020 7:00:03
  *  Author: Yauheni
  */
 
-#include "start.h"
+#include "addressForRead.h"
 #include "i2c/driver/driver.h"
-#include "addressForWrite.h"
+#include "readData.h"
 #include "completion.h"
 
 static void acknowledge(I2CStatePtr, bool);
 
-void i2cTransitionToStart(I2CStatePtr state) {
+void i2cTransitionToAddressForRead(I2CStatePtr state) {
     i2cDefaultStateImplementation(state);
     state->acknowledge = acknowledge;
 
@@ -20,10 +20,8 @@ void i2cTransitionToStart(I2CStatePtr state) {
 
 static void acknowledge(I2CStatePtr state, bool isSuccess) {
     if (isSuccess) {
-        i2cTransitionToAddressForWrite(state);
+        i2cTransitionToReadData(state);
     } else {
         i2cTransitionToCompletion(state, false);
     }
 }
-
-

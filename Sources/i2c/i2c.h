@@ -11,13 +11,20 @@
 #include <inttypes.h>
 #include <stdbool.h>
 
+typedef void (*I2COperationCompletion)(bool);
 
-I2CCommandPtr i2cWrite(uint8_t addr, uint8_t *data, uint8_t len);
-I2CCommandPtr i2cWriteRead(
+void i2cWrite(
     uint8_t addr,
-    uint8_t *wrData, uint8_t wrLen,
-    uint8_t *rdData, uint8_t rdLen);
+    uint8_t *data,
+    uint8_t len,
+    I2COperationCompletion completion);
 
-void i2cComplete(I2CCommandPtr);
+void i2cWriteRead(
+    uint8_t addr,
+    uint8_t *wrData,
+    uint8_t wrLen,
+    uint8_t *rdData,
+    uint8_t rdLen,
+    I2COperationCompletion completion);
 
 #endif /* I2C_H_ */

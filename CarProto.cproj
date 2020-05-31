@@ -163,14 +163,14 @@
   <ItemGroup>
     <Folder Include="Sources" />
     <Folder Include="Sources\i2c\driver" />
-    <Folder Include="Sources\i2c\commandQueue" />
-    <Folder Include="Sources\i2c\states" />
+    <Folder Include="Sources\i2c\states\" />
     <Folder Include="Sources\libs" />
     <Folder Include="Sources\libs\avr-uart" />
     <Folder Include="Sources\common" />
     <Folder Include="Sources\button" />
     <Folder Include="Sources\Motor" />
     <Folder Include="Sources\i2c" />
+    <Folder Include="Sources\i2cCommandQueue" />
     <Folder Include="Sources\steer" />
     <Folder Include="Sources\steer\states" />
     <Folder Include="Sources\stepper\driver" />
@@ -191,10 +191,13 @@
     <Compile Include="Sources\common\unused.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\i2c\commandQueue\i2cCommandQueue.c">
+    <Compile Include="Sources\i2cCommandQueue\i2cCommand.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\i2c\commandQueue\i2cCommandQueue.h">
+    <Compile Include="Sources\i2cCommandQueue\i2cCommandQueue.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\i2cCommandQueue\i2cCommandQueue.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\i2c\driver\driver.c">
@@ -209,22 +212,22 @@
     <Compile Include="Sources\i2c\i2c.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\i2c\commandQueue\i2cCommand.c">
+    <Compile Include="Sources\i2c\states\addressForRead.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\i2c\commandQueue\i2cCommand.h">
+    <Compile Include="Sources\i2c\states\addressForRead.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\i2c\states\address.c">
+    <Compile Include="Sources\i2c\states\addressForWrite.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\i2c\states\address.h">
+    <Compile Include="Sources\i2c\states\addressForWrite.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\i2c\states\error.c">
+    <Compile Include="Sources\i2c\states\completion.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\i2c\states\error.h">
+    <Compile Include="Sources\i2c\states\completion.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\i2c\states\idle.c">
