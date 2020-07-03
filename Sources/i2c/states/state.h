@@ -12,28 +12,31 @@
 #include <stdbool.h>
 
 typedef struct I2CState* I2CStatePtr;
+typedef struct TransactionParams TransactionParams;
 
 typedef void (*I2CCompletionCallback)(bool);
-
 typedef void (*I2CAcknowledgeEvent)(I2CStatePtr, bool);
-typedef void (*I2CWriteEvent)(I2CStatePtr, uint8_t, uint8_t*, uint8_t, I2CCompletionCallback completion);
-typedef void (*I2CWriteReadEvent)(I2CStatePtr, uint8_t, uint8_t*, uint8_t, uint8_t*, uint8_t, I2CCompletionCallback completion);
+typedef void (*I2CTransactionEvent)(I2CStatePtr, TransactionParams);
+
+struct TransactionParams {
+    uint8_t addr;
+    uint8_t command;
+    uint8_t bytesCount;
+    uint8_t *buffer;
+    bool write;
+    I2COperationCompletion completion;
+};
+
+struct TransactionState {
+    uint8_t bytesTransferred;
+};
 
 struct I2CState {
     I2CAcknowledgeEvent acknowledge;
-    I2CWriteEvent write;
-    I2CWriteReadEvent writeRead;
+    I2CTransactionEvent newTransaction;
 
-    // parameters
-    uint8_t addr;
-    uint8_t *wrData;
-    uint8_t wrLen;
-    uint8_t *rdData;
-    uint8_t rdLen;
-    I2CCompletionCallback completion;
-
-    // state
-    uint8_t bytesCount;
+    struct TransactionParams transactionParams;
+    struct TransactionState transactionState;
 };
 
 void i2cDefaultStateImplementation(I2CStatePtr state);

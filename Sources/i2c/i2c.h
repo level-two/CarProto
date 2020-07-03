@@ -13,18 +13,12 @@
 
 typedef void (*I2COperationCompletion)(bool);
 
-void i2cWrite(
+void i2cTransaction(
     uint8_t addr,
-    uint8_t *data,
-    uint8_t len,
-    I2COperationCompletion completion);
-
-void i2cWriteRead(
-    uint8_t addr,
-    uint8_t *wrData,
-    uint8_t wrLen,
-    uint8_t *rdData,
-    uint8_t rdLen,
+    uint8_t command,
+    uint8_t bytesCount,
+    uint8_t *bufferPtr,
+    bool isWrite,
     I2COperationCompletion completion);
 
 #endif /* I2C_H_ */

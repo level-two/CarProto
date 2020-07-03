@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include "writeData.h"
 #include "i2c/driver/driver.h"
-#include "repeatedStart.h"
 #include "completion.h"
 
 static void acknowledge(I2CStatePtr, bool);
@@ -17,9 +16,9 @@ void i2cTransitionToWriteData(I2CStatePtr state) {
     i2cDefaultStateImplementation(state);
 
     state->acknowledge = acknowledge;
-    state->bytesCount = 0;
+    state->transactionState.bytesTransferred = 0;
 
-    uint8_t data = state->wrData[state->bytesCount];
+    uint8_t data = state->transactionParams.buffer[0];
     // send data
 }
 
@@ -29,14 +28,13 @@ static void acknowledge(I2CStatePtr state, bool isSuccess) {
         return;
     }
 
-    state->bytesCount += 1;
+    state->transactionState.bytesTransferred += 1;
+    uint8_t writtenBytes = state->transactionState.bytesTransferred;
+    uint8_t totalBytes = state->transactionParams.bytesCount;
 
-    if (state->bytesCount < state->wrLen) {
+    if (writtenBytes < totalBytes) {
         i2cTransitionToWriteData(state);
-    } else if (state->rdLen > 0 && state->rdData != NULL) {
-        i2cTransitionToRepeatedStart(state);
     } else {
         i2cTransitionToCompletion(state, true);
     }
-
 }

@@ -212,16 +212,22 @@
     <Compile Include="Sources\i2c\i2c.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Sources\i2c\states\address.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\i2c\states\address.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Sources\i2c\states\addressForRead.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\i2c\states\addressForRead.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\i2c\states\addressForWrite.c">
+    <Compile Include="Sources\i2c\states\command.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\i2c\states\addressForWrite.h">
+    <Compile Include="Sources\i2c\states\command.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\i2c\states\completion.c">

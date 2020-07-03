@@ -7,7 +7,6 @@
 
 #include "readData.h"
 #include "i2c/driver/driver.h"
-#include "repeatedStart.h"
 #include "completion.h"
 
 static void acknowledge(I2CStatePtr, bool);
@@ -16,8 +15,7 @@ void i2cTransitionToReadData(I2CStatePtr state) {
     i2cDefaultStateImplementation(state);
 
     state->acknowledge = acknowledge;
-    state->bytesCount = 0;
-
+    state->transactionState.bytesTransferred = 0;
 
     // TODO: Put MACK on successful data reception
     // TODO: Is ACK polling acceptable here? How errors should be handled?
@@ -30,17 +28,17 @@ static void acknowledge(I2CStatePtr state, bool isSuccess) {
         return;
     }
 
+    state->transactionState.bytesTransferred += 1;
+    uint8_t readBytes = state->transactionState.bytesTransferred;
+    uint8_t totalBytes = state->transactionParams.bytesCount;
+
     // get data
     uint8_t data = 0;
-    uint8_t readBytes = state->bytesCount;
-    state->rdData[readBytes] = data;
+    state->transactionParams.buffer[readBytes-1] = data;
 
-    state->bytesCount += 1;
-
-    if (state->bytesCount < state->rdLen) {
+    if (readBytes < totalBytes) {
         i2cTransitionToReadData(state);
     } else {
         i2cTransitionToCompletion(state, true);
     }
-
 }

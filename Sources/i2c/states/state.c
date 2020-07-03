@@ -9,14 +9,11 @@
 #include "common/unused.h"
 
 static void defaultAcknowledge(I2CStatePtr, bool);
-static void defaultWrite(I2CStatePtr, uint8_t, uint8_t*, uint8_t, I2CCompletionCallback);
-static void defaultWriteRead(I2CStatePtr, uint8_t, uint8_t*, uint8_t, uint8_t*, uint8_t, I2CCompletionCallback);
+static void defaultNewTransaction(I2CStatePtr, TransactionParams);
 
 void defaultI2CStateImplementation(I2CStatePtr state) {
     state->acknowledge = defaultAcknowledge;
-    state->write = defaultWrite;
-    state->writeRead = defaultWriteRead;
-
+    state->newTransaction = defaultNewTransaction;
 }
 
 static void defaultAcknowledge(I2CStatePtr state, bool isSuccess) {
@@ -24,20 +21,7 @@ static void defaultAcknowledge(I2CStatePtr state, bool isSuccess) {
     UNUSED(isSuccess);
 }
 
-static void defaultWrite(I2CStatePtr state, uint8_t addr, uint8_t *data, uint8_t len, I2CCompletionCallback completion) {
+static void defaultNewTransaction(I2CStatePtr state, TransactionParams transactionParams) {
     UNUSED(state);
-    UNUSED(addr);
-    UNUSED(data);
-    UNUSED(len);
-    UNUSED(completion);
-}
-
-static void defaultWriteRead(I2CStatePtr state, uint8_t addr, uint8_t *wrData, uint8_t wrLen, uint8_t *rdData, uint8_t rdLen, I2CCompletionCallback completion) {
-    UNUSED(state);
-    UNUSED(addr);
-    UNUSED(wrData);
-    UNUSED(wrLen);
-    UNUSED(rdData);
-    UNUSED(rdLen);
-    UNUSED(completion);
+    UNUSED(transactionParams);
 }

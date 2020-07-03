@@ -20,7 +20,7 @@ void i2cTransitionToStart(I2CStatePtr state) {
 
 static void acknowledge(I2CStatePtr state, bool isSuccess) {
     if (isSuccess) {
-        i2cTransitionToAddressForWrite(state);
+        i2cTransitionToAddress(state);
     } else {
         i2cTransitionToCompletion(state, false);
     }
