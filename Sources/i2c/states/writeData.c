@@ -18,7 +18,7 @@ void i2cTransitionToWriteData(I2CStatePtr state) {
     state->acknowledge = acknowledge;
     state->transactionState.bytesTransferred = 0;
 
-    uint8_t data = state->transactionParams.buffer[0];
+    //uint8_t data = state->transactionParams.buffer[0];
     // send data
 }
 

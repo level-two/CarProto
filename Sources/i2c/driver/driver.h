@@ -10,6 +10,7 @@
 #define I2C_DRIVER_H_
 
 #include <avr/io.h>
+#include <stdbool.h>
 
 typedef enum {
     i2cDriverStatusStart = 0x08,

@@ -8,6 +8,7 @@
 #include "address.h"
 #include "i2c/driver/driver.h"
 #include "command.h"
+#include "completion.h"
 
 static void acknowledge(I2CStatePtr, bool);
 

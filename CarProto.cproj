@@ -170,7 +170,6 @@
     <Folder Include="Sources\button" />
     <Folder Include="Sources\Motor" />
     <Folder Include="Sources\i2c" />
-    <Folder Include="Sources\i2cCommandQueue" />
     <Folder Include="Sources\steer" />
     <Folder Include="Sources\steer\states" />
     <Folder Include="Sources\stepper\driver" />
@@ -189,15 +188,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\common\unused.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2cCommandQueue\i2cCommand.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2cCommandQueue\i2cCommandQueue.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2cCommandQueue\i2cCommandQueue.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\i2c\driver\driver.c">
@@ -270,6 +260,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\i2c\states\stop.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\i2c\states\transactionParams.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\i2c\states\writeData.c">

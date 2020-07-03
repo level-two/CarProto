@@ -8,15 +8,16 @@
 #include <stdlib.h>
 #include "idle.h"
 #include "start.h"
+#include "transactionParams.h"
 
-static void newTransaction(I2CStatePtr, TransactionParams);
+static void newTransaction(I2CStatePtr, I2CTransactionParams);
 
 void i2cTransitionToIdle(I2CStatePtr state) {
     i2cDefaultStateImplementation(state);
     state->newTransaction = newTransaction;
 }
 
-static void newTransaction(I2CStatePtr state, TransactionParams params) {
+static void newTransaction(I2CStatePtr state, I2CTransactionParams params) {
     state->transactionParams = params;
     i2cTransitionToStart(state);
 }

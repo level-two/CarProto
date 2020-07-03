@@ -18,7 +18,7 @@ void i2cTransaction(
     uint8_t command,
     uint8_t bytesCount,
     uint8_t *bufferPtr,
-    bool isWrite,
+    bool write,
     I2COperationCompletion completion);
 
 #endif /* I2C_H_ */

@@ -14,7 +14,7 @@
 static I2CDriverAcknowledgeCallback acknnowledgeCallback = NULL;
 
 ISR(TWI_vect) {
-    acknnowledgeCallback();
+    //knnowledgeCallback();
 }
 
 void i2cDriverSetAcknowledgeCallback(I2CDriverAcknowledgeCallback callback) {
