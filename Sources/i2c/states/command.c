@@ -18,8 +18,8 @@ void i2cTransitionToCommand(I2CStatePtr state) {
     i2cDefaultStateImplementation(state);
     state->acknowledge = acknowledge;
 
-    //uint8_t command = state->transactionParams->command;
-    // send command
+    uint8_t command = state->transactionParams.command;
+    i2cDriverSendData(command);
 }
 
 static void acknowledge(I2CStatePtr state, bool isSuccess) {

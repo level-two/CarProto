@@ -14,12 +14,11 @@ static void acknowledge(I2CStatePtr, bool);
 
 void i2cTransitionToWriteData(I2CStatePtr state) {
     i2cDefaultStateImplementation(state);
-
     state->acknowledge = acknowledge;
-    state->transactionState.bytesTransferred = 0;
 
-    //uint8_t data = state->transactionParams.buffer[0];
-    // send data
+    uint8_t index = state->transactionState.bytesTransferred;
+    uint8_t data = state->transactionParams.buffer[index];
+    i2cDriverSendData(data);
 }
 
 static void acknowledge(I2CStatePtr state, bool isSuccess) {

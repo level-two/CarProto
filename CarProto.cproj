@@ -232,10 +232,22 @@
     <Compile Include="Sources\i2c\states\idle.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Sources\i2c\states\readAck.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\i2c\states\readAck.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Sources\i2c\states\readData.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\i2c\states\readData.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\i2c\states\readNack.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\i2c\states\readNack.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\i2c\states\repeatedStart.c">

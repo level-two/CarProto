@@ -15,6 +15,7 @@ static void newTransaction(I2CStatePtr, I2CTransactionParams);
 void i2cTransitionToIdle(I2CStatePtr state) {
     i2cDefaultStateImplementation(state);
     state->newTransaction = newTransaction;
+    state->transactionState.bytesTransferred = 0;
 }
 
 static void newTransaction(I2CStatePtr state, I2CTransactionParams params) {

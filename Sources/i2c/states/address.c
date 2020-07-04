@@ -15,6 +15,9 @@ static void acknowledge(I2CStatePtr, bool);
 void i2cTransitionToAddress(I2CStatePtr state) {
     i2cDefaultStateImplementation(state);
     state->acknowledge = acknowledge;
+
+    uint8_t address = state->transactionParams.addr;
+    i2cDriverSendAddrForWrite(address);
 }
 
 static void acknowledge(I2CStatePtr state, bool isSuccess) {

@@ -1,23 +1,21 @@
 /*
- * addressForRead.c
+ * readAck.c
  *
- * Created: 30.05.2020 7:00:03
+ * Created: 04.07.2020 18:17:11
  *  Author: Yauheni
  */
 
-#include "addressForRead.h"
+#include "readAck.h"
 #include "i2c/driver/driver.h"
 #include "readData.h"
 #include "completion.h"
 
 static void acknowledge(I2CStatePtr, bool);
 
-void i2cTransitionToAddressForRead(I2CStatePtr state) {
+void i2cTransitionToReadAck(I2CStatePtr state) {
     i2cDefaultStateImplementation(state);
     state->acknowledge = acknowledge;
-
-    uint8_t address = state->transactionParams.addr;
-    i2cDriverSendAddrForRead(address);
+    i2cDriverSendReadDataAck();
 }
 
 static void acknowledge(I2CStatePtr state, bool isSuccess) {

@@ -1,26 +1,23 @@
 /*
- * stop.c
+ * readNack.c
  *
- * Created: 29.05.2020 6:54:22
+ * Created: 04.07.2020 18:17:11
  *  Author: Yauheni
  */
 
-#include "common/unused.h"
+#include "readNack.h"
 #include "i2c/driver/driver.h"
-#include "stop.h"
-#include "idle.h"
+#include "readData.h"
+#include "completion.h"
 
 static void acknowledge(I2CStatePtr, bool);
 
-void i2cTransitionToStop(I2CStatePtr state) {
+void i2cTransitionToReadNack(I2CStatePtr state) {
     i2cDefaultStateImplementation(state);
     state->acknowledge = acknowledge;
-    i2cDriverSendStop();
+    i2cDriverSendReadDataNack();
 }
 
 static void acknowledge(I2CStatePtr state, bool isSuccess) {
-    UNUSED(isSuccess);
-    i2cTransitionToIdle(state);
+    i2cTransitionToCompletion(state, isSuccess);
 }
-
-
