@@ -13,6 +13,8 @@
 
 typedef void (*I2COperationCompletion)(bool);
 
+void i2cConfigure();
+
 void i2cTransaction(
     uint8_t addr,
     uint8_t command,

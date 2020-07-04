@@ -12,26 +12,22 @@
 #include <avr/io.h>
 #include <stdbool.h>
 
-typedef enum {
-    i2cDriverStatusStart = 0x08,
-    i2cDriverStatusRepeatedStart = 0x10,
-
-    i2cDriverStatusWriteAddrAck = 0x18,
-    i2cDriverStatusWriteAddrNack = 0x20,
-    i2cDriverStatusWriteDataAck = 0x28,
-    i2cDriverStatusWriteDataNack = 0x30,
-
-    i2cDriverStatusArbLost = 0x38,
-
-    i2cDriverStatusReadAddrAck = 0x40,
-    i2cDriverStatusReadAddrNack = 0x48,
-    i2cDriverStatusReadDataAck = 0x50,
-    i2cDriverStatusReadDataNack = 0x58,
-} I2CDriverOperationStatus;
-
 typedef void (*I2CDriverAcknowledgeCallback)(bool);
 
-void i2cDriverSetAcknowledgeCallback(I2CDriverAcknowledgeCallback);
+#define I2C_NORMAL_MODE(xtalCpu) ((xtalCpu / 100000UL - 16UL)/2UL)
+#define I2C_FAST_MODE(xtalCpu) ((xtalCpu / 400000UL - 16UL)/2UL)
 
+void i2cDriverConfigure(uint8_t bitRateDivisionFactor);
+void i2cDriverSetAcknowledgeCallback(I2CDriverAcknowledgeCallback callback);
+
+void i2cDriverSendStart();
+void i2cDriverSendRepeatedStart();
+void i2cDriverSendStop();
+void i2cDriverSendAddrForWrite(uint8_t addr);
+void i2cDriverSendAddrForRead(uint8_t addr);
+void i2cDriverSendData(uint8_t data);
+void i2cDriverSendReadDataAck();
+void i2cDriverSendReadDataNack();
+uint8_t i2cDriverGetReceivedData();
 
 #endif /* I2C_DRIVER_H_ */
