@@ -19,18 +19,42 @@ struct Transaction {
     TransactionPtr next;
 };
 
-static I2CStatePtr i2cState;
-static TransactionPtr currentTransaction;
 
+static I2CStatePtr i2cState;
+static TransactionPtr transactionQueueHead;
+
+
+static TransactionPtr makeTransaction(uint8_t addr, uint8_t command,
+    uint8_t bytesCount, uint8_t *buffer, bool write, I2COperationCompletion completion);
 static void transactionCompleted(bool isSuccess);
+static void pushBack(TransactionPtr transaction);
+static TransactionPtr popFront();
+static void release(TransactionPtr transaction);
+static TransactionPtr currentTransaction();
+static void execute(TransactionPtr transaction);
+
 
 void i2cConfigure() {
     i2cState = (I2CStatePtr) malloc(sizeof(struct I2CState));
     i2cTransitionToIdle(i2cState);
-    currentTransaction = NULL;
+    transactionQueueHead = NULL;
 }
 
 void i2cTransaction(
+    uint8_t addr,
+    uint8_t command,
+    uint8_t bytesCount,
+    uint8_t *buffer,
+    bool write,
+    I2COperationCompletion completion)
+{
+    TransactionPtr transaction = makeTransaction(addr, command, bytesCount, buffer, write, completion);
+    pushBack(transaction);
+    execute(currentTransaction());
+}
+
+
+static TransactionPtr makeTransaction(
     uint8_t addr,
     uint8_t command,
     uint8_t bytesCount,
@@ -44,34 +68,52 @@ void i2cTransaction(
         .bytesCount = bytesCount,
         .buffer = buffer,
         .write = write,
-        .completion= transactionCompleted
+        .completion = transactionCompleted
     };
 
-    TransactionPtr newTransaction = (TransactionPtr) malloc(sizeof(struct Transaction));
-    newTransaction->params = params;
-    newTransaction->completion = completion;
-    newTransaction->next = NULL;
+    TransactionPtr transaction = (TransactionPtr) malloc(sizeof(struct Transaction));
+    transaction->params = params;
+    transaction->completion = completion;
+    transaction->next = NULL;
 
-    if (currentTransaction == NULL) {
-        currentTransaction = newTransaction;
-        i2cState->newTransaction(i2cState, currentTransaction->params);
-    } else {
-        TransactionPtr last = currentTransaction;
-        while (last->next != NULL) {
-            last = last->next;
-        }
-        last->next = newTransaction;
-    }
+    return transaction;
 }
 
 static void transactionCompleted(bool isSuccess) {
-    currentTransaction->completion(isSuccess);
+    TransactionPtr transaction = popFront();
+    transaction->completion(isSuccess);
+    release(transaction);
+    execute(currentTransaction());
+}
 
-    TransactionPtr next = currentTransaction->next;
-    free(currentTransaction);
-    currentTransaction = next;
+static void pushBack(TransactionPtr transaction) {
+    if (transactionQueueHead == NULL) {
+        transactionQueueHead = transaction;
+    } else {
+        TransactionPtr last = transactionQueueHead;
+        while (last->next != NULL) {
+            last = last->next;
+        }
+        last->next = transaction;
+    }
+}
 
-    if (currentTransaction != NULL) {
-        i2cState->newTransaction(i2cState, currentTransaction->params);
+static TransactionPtr popFront() {
+    TransactionPtr transaction = transactionQueueHead;
+    transactionQueueHead = transactionQueueHead->next;
+    return transaction;
+}
+
+static void release(TransactionPtr transaction) {
+    free(transaction);
+}
+
+static TransactionPtr currentTransaction() {
+    return transactionQueueHead;
+}
+
+static void execute(TransactionPtr transaction) {
+    if (transaction != NULL) {
+        i2cState->newTransaction(i2cState, transaction->params);
     }
 }
