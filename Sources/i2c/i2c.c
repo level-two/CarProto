@@ -23,15 +23,14 @@ struct Transaction {
 static I2CStatePtr i2cState;
 static TransactionPtr transactionQueueHead;
 
-
-static TransactionPtr makeTransaction(uint8_t addr, uint8_t command,
-    uint8_t bytesCount, uint8_t *buffer, bool write, I2COperationCompletion completion);
-static void transactionCompleted(bool isSuccess);
-static void pushBack(TransactionPtr transaction);
-static TransactionPtr popFront();
-static void release(TransactionPtr transaction);
 static TransactionPtr currentTransaction();
-static void execute(TransactionPtr transaction);
+static void pushBack(TransactionPtr);
+static TransactionPtr popFront();
+
+static TransactionPtr makeTransaction(uint8_t, uint8_t, uint8_t, uint8_t*, bool, I2COperationCompletion);
+static void release(TransactionPtr);
+static void execute(TransactionPtr);
+static void transactionCompleted(bool);
 
 
 void i2cConfigure() {
