@@ -11,7 +11,7 @@
 static void defaultAcknowledge(I2CStatePtr, bool);
 static void defaultNewTransaction(I2CStatePtr, I2CTransactionParams);
 
-void defaultI2CStateImplementation(I2CStatePtr state) {
+void i2cDefaultStateImplementation(I2CStatePtr state) {
     state->acknowledge = defaultAcknowledge;
     state->newTransaction = defaultNewTransaction;
 }

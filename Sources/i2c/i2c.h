@@ -13,7 +13,12 @@
 
 typedef void (*I2COperationCompletion)(bool);
 
-void i2cConfigure();
+typedef enum {
+    i2cNormalMode,
+    i2cFastMode
+} I2CMode;
+
+void i2cConfigure(I2CMode mode);
 
 void i2cTransaction(
     uint8_t addr,

@@ -7,9 +7,15 @@
 
 #include <stdlib.h>
 #include "i2c.h"
+#include "driver/driver.h"
 #include "states/state.h"
 #include "states/idle.h"
 #include "states/transactionParams.h"
+
+#if !defined(F_CPU)
+    #error "Please define F_CPU"
+#endif
+
 
 typedef struct Transaction* TransactionPtr;
 
@@ -33,7 +39,16 @@ static void execute(TransactionPtr);
 static void transactionCompleted(bool);
 
 
-void i2cConfigure() {
+void i2cConfigure(I2CMode mode) {
+    switch (mode) {
+    case i2cNormalMode:
+        i2cDriverConfigure(I2C_NORMAL_MODE(F_CPU));
+        break;
+    case i2cFastMode:
+        i2cDriverConfigure(I2C_FAST_MODE(F_CPU));
+        break;
+    }
+
     i2cState = (I2CStatePtr) malloc(sizeof(struct I2CState));
     i2cTransitionToIdle(i2cState);
     transactionQueueHead = NULL;

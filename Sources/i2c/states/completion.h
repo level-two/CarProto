@@ -6,12 +6,12 @@
  */
 
 
-#ifndef COMPLETION_H_
-#define COMPLETION_H_
+#ifndef I2C_STATE_COMPLETION_H_
+#define I2C_STATE_COMPLETION_H_
 
-#include <inttypes.h>
+#include <stdbool.h>
 #include "state.h"
 
 void i2cTransitionToCompletion(I2CStatePtr state, bool isSuccess);
 
-#endif /* COMPLETION_H_ */
+#endif /* I2C_STATE_COMPLETION_H_s */

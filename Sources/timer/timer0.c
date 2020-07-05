@@ -9,6 +9,10 @@
 #include "common/bitManipulations.h"
 #include "timer0.h"
 
+#if !defined(F_CPU)
+    #error "Please define F_CPU"
+#endif
+
 #define PRESCALER_DIV 64
 #define USEC_PER_TICK (1000000UL * PRESCALER_DIV / F_CPU)
 

@@ -9,7 +9,6 @@
 #ifndef I2C_STATE_COMMAND_H_
 #define I2C_STATE_COMMAND_H_
 
-#include <inttypes.h>
 #include "state.h"
 
 void i2cTransitionToCommand(I2CStatePtr);
