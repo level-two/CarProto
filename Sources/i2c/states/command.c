@@ -18,14 +18,14 @@ void i2cTransitionToCommand(I2CStatePtr state) {
     i2cDefaultStateImplementation(state);
     state->acknowledge = acknowledge;
 
-    uint8_t command = state->transactionParams.command;
+    uint8_t command = state->transactionParams->command;
     i2cDriverSendData(command);
 }
 
 static void acknowledge(I2CStatePtr state, bool isSuccess) {
     if (!isSuccess) {
         i2cTransitionToCompletion(state, false);
-    } else if (state->transactionParams.write) {
+    } else if (state->transactionParams->write) {
         i2cTransitionToWriteData(state);
     } else {
         i2cTransitionToRepeatedStart(state);

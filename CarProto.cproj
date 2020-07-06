@@ -232,6 +232,12 @@
     <Compile Include="Sources\i2c\states\idle.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Sources\i2c\states\queue.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\i2c\states\queue.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Sources\i2c\states\readAck.c">
       <SubType>compile</SubType>
     </Compile>

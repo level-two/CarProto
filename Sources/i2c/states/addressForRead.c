@@ -16,7 +16,7 @@ void i2cTransitionToAddressForRead(I2CStatePtr state) {
     i2cDefaultStateImplementation(state);
     state->acknowledge = acknowledge;
 
-    uint8_t address = state->transactionParams.addr;
+    uint8_t address = state->transactionParams->addr;
     i2cDriverSendAddrForRead(address);
 }
 

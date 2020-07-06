@@ -17,7 +17,7 @@ void i2cTransitionToWriteData(I2CStatePtr state) {
     state->acknowledge = acknowledge;
 
     uint8_t index = state->transactionState.bytesTransferred;
-    uint8_t data = state->transactionParams.buffer[index];
+    uint8_t data = state->transactionParams->buffer[index];
     i2cDriverSendData(data);
 }
 
@@ -29,7 +29,7 @@ static void acknowledge(I2CStatePtr state, bool isSuccess) {
 
     state->transactionState.bytesTransferred += 1;
     uint8_t writtenBytes = state->transactionState.bytesTransferred;
-    uint8_t totalBytes = state->transactionParams.bytesCount;
+    uint8_t totalBytes = state->transactionParams->bytesCount;
 
     if (writtenBytes < totalBytes) {
         i2cTransitionToWriteData(state);

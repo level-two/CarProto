@@ -11,9 +11,8 @@
 #include <inttypes.h>
 #include <stdbool.h>
 
+typedef struct I2CTransactionParams* I2CTransactionParamsPtr;
 typedef void (*I2CTransactionCompletion)(bool);
-
-typedef struct I2CTransactionParams I2CTransactionParams;
 
 struct I2CTransactionParams {
     uint8_t addr;
