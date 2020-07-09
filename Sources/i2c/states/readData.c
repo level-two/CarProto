@@ -16,6 +16,7 @@ static void acknowledge(I2CStatePtr, bool);
 void i2cTransitionToReadData(I2CStatePtr state) {
     i2cDefaultStateImplementation(state);
     state->acknowledge = acknowledge;
+    i2cDriverReadData();
 }
 
 static void acknowledge(I2CStatePtr state, bool isSuccess) {

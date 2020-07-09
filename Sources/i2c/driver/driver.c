@@ -12,7 +12,6 @@
 #include "driver.h"
 #include "common/bitManipulations.h"
 
-
 typedef enum {
     StatusStart = 0x08,
     StatusRepeatedStart = 0x10,
@@ -28,6 +27,8 @@ typedef enum {
     StatusReadAddrNack = 0x48,
     StatusReadDataAck = 0x50,
     StatusReadDataNack = 0x58,
+
+    StatusDoNotTrack = 0xFF
 } OperationStatus;
 
 
@@ -38,7 +39,10 @@ static uint8_t currentStatus();
 
 ISR(TWI_vect) {
     if (acknowledgeCallback != NULL) {
-        bool isSuccess = (currentStatus() == expectedStatus);
+        bool isSuccess =
+            expectedStatus == StatusDoNotTrack ||
+            currentStatus() == expectedStatus;
+
         acknowledgeCallback(isSuccess);
     }
 }
@@ -69,19 +73,24 @@ void i2cDriverSendStop() {
 
 void i2cDriverSendAddrForWrite(uint8_t addr) {
     expectedStatus = StatusWriteAddrAck;
-    TWDR = addr << 1 | (1 << 0);
+    TWDR = (addr << 1);
     TWCR = (1 << TWIE) | (1 << TWINT) | (1 << TWEN);
 }
 
 void i2cDriverSendAddrForRead(uint8_t addr) {
     expectedStatus = StatusReadAddrAck;
-    TWDR = addr << 1;
+    TWDR = (addr << 1) | 0x01;
     TWCR = (1 << TWIE) | (1 << TWINT) | (1 << TWEN);
 }
 
 void i2cDriverSendData(uint8_t data) {
     expectedStatus = StatusWriteDataAck;
     TWDR = data;
+    TWCR = (1 << TWIE) | (1 << TWINT) | (1 << TWEN);
+}
+
+void i2cDriverReadData() {
+    expectedStatus = StatusDoNotTrack;
     TWCR = (1 << TWIE) | (1 << TWINT) | (1 << TWEN);
 }
 

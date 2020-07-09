@@ -6,6 +6,7 @@
  */
 
 #include <stdlib.h>
+#include <util/atomic.h>
 #include "queue.h"
 
 typedef struct Node* NodePtr;
@@ -36,11 +37,25 @@ void queueRelease(QueuePtr queue, bool freeDataMemory) {
 }
 
 bool queueIsEmpty(QueuePtr queue) {
-    return (queue->head == NULL);
+    bool isEmpty = true;
+
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+        isEmpty = (queue->head == NULL);
+    }
+
+    return isEmpty;
 }
 
 void* queueHead(QueuePtr queue) {
-    return queue->head;
+    void *headData = NULL;
+
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+        if (queue->head != NULL) {
+            headData = queue->head->data;
+        }
+    }
+
+    return headData;
 }
 
 void queuePushBack(QueuePtr queue, void *data) {
@@ -48,23 +63,34 @@ void queuePushBack(QueuePtr queue, void *data) {
     node->next = NULL;
     node->data = data;
 
-    if (queue->head == NULL) {
-        queue->head = node;
-    } else {
-        NodePtr last = queue->head;
-        while (last->next != NULL) {
-            last = last->next;
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+        if (queue->head == NULL) {
+            queue->head = node;
+        } else {
+            NodePtr last = queue->head;
+            while (last->next != NULL) {
+                last = last->next;
+            }
+            last->next = node;
         }
-        last->next = node;
     }
 }
 
 void* queuePopFront(QueuePtr queue) {
-    if (queue->head == NULL) { return NULL; }
+    NodePtr node = NULL;
+    void *data = NULL;
 
-    NodePtr node = queue->head;
-    void *data = node->data;
-    queue->head = node->next;
-    free(node);
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+        if (queue->head != NULL) {
+            node = queue->head;
+            data = node->data;
+            queue->head = node->next;
+        }
+    }
+
+    if (node != NULL) {
+        free(node);
+    }
+
     return data;
 }

@@ -6,6 +6,7 @@
  */
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
 #include <util/delay.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -16,26 +17,27 @@
 //#include "wiring.h"
 #include "i2c/i2c.h"
 
-static uint8_t* buffer;
-static uint8_t count = 1;
+static uint8_t buffer[1];
+static uint8_t bufferwr[1];
 static void readCompleted(bool);
 
 int main(void)
 {
-    i2cConfigure(i2cNormalMode);
+    sei();
     uart0_init(UART_BAUD_SELECT_DOUBLE_SPEED(115200, F_CPU));
+    uart0_puts("Hi Jack!\n");
 
-    uart0_puts("Hi Jack!");
-
-    buffer = (uint8_t*) calloc(count, sizeof(uint8_t));
+    i2cConfigure(i2cFastMode);
+    bufferwr[0] = 0xEB;
 
     while(1) {
         uint8_t command = uart0_available() ? (uint8_t) uart0_getc() : 0;
 
         switch (command) {
-        case 'r':
-            uart0_puts("Read\n");
-            i2cTransaction(0x68, 0x0F, count, buffer, false, readCompleted);
+        case 's':
+            i2cTransaction(0x68, 0x0F, 1, buffer, false, readCompleted);
+            i2cTransaction(0x68, 0x22, 1, bufferwr, true, readCompleted);
+            i2cTransaction(0x68, 0x22, 1, buffer, false, readCompleted);
             break;
         default:
             break;
@@ -49,11 +51,15 @@ int main(void)
 
 static void readCompleted(bool isSuccess) {
     if (isSuccess) {
-        uart0_puts("Data read successfully: ");
-        uart0_putc(buffer[0]);
+        uart0_puts("=] ");
+        uint8_t data = buffer[0];
+        for (uint8_t i = 0; i < 8; i++) {
+            uart0_putc((data & 0x80) ? '1' : '0');
+            data = data << 1;
+        }
         uart0_putc('\n');
     } else {
-        uart0_puts("Failed to read data\n");
+        uart0_puts("=[\n");
     }
 }
 

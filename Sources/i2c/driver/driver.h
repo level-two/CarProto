@@ -26,6 +26,7 @@ void i2cDriverSendStop();
 void i2cDriverSendAddrForWrite(uint8_t addr);
 void i2cDriverSendAddrForRead(uint8_t addr);
 void i2cDriverSendData(uint8_t data);
+void i2cDriverReadData();
 void i2cDriverSendReadDataAck();
 void i2cDriverSendReadDataNack();
 uint8_t i2cDriverGetReceivedData();

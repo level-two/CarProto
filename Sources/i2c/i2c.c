@@ -9,7 +9,7 @@
 #include "i2c.h"
 #include "driver/driver.h"
 #include "states/state.h"
-#include "states/idle.h"
+#include "states/initial.h"
 
 #if !defined(F_CPU)
     #error "Please define F_CPU"
@@ -20,6 +20,11 @@ static I2CStatePtr i2cState;
 static void acknowledge(bool);
 
 void i2cConfigure(I2CMode mode) {
+    i2cState = (I2CStatePtr) malloc(sizeof(struct I2CState));
+    i2cTransitionToInitial(i2cState);
+
+    i2cDriverSetAcknowledgeCallback(acknowledge);
+
     switch (mode) {
     case i2cNormalMode:
         i2cDriverConfigure(I2C_NORMAL_MODE(F_CPU));
@@ -28,11 +33,6 @@ void i2cConfigure(I2CMode mode) {
         i2cDriverConfigure(I2C_FAST_MODE(F_CPU));
         break;
     }
-
-    i2cDriverSetAcknowledgeCallback(acknowledge);
-
-    i2cState = (I2CStatePtr) malloc(sizeof(struct I2CState));
-    i2cTransitionToIdle(i2cState);
 }
 
 void i2cTransaction(
