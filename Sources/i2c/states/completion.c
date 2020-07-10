@@ -10,6 +10,8 @@
 
 void i2cTransitionToCompletion(I2CStatePtr state, bool isSuccess) {
     i2cDefaultStateImplementation(state);
-    state->transactionParams->completion(isSuccess);
+    if (state->transactionParams->completion != NULL) {
+        state->transactionParams->completion(isSuccess);
+    }
     i2cTransitionToStop(state);
 }
