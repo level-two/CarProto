@@ -127,7 +127,7 @@
       <Value>DEBUG</Value>
       <Value>F_CPU=16000000UL</Value>
       <Value>UART_RX0_BUFFER_SIZE=64</Value>
-      <Value>UART_TX0_BUFFER_SIZE=512</Value>
+      <Value>UART_TX0_BUFFER_SIZE=128</Value>
     </ListValues>
   </avrgcc.compiler.symbols.DefSymbols>
   <avrgcc.compiler.directories.IncludePaths>
