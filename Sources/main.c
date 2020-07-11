@@ -17,9 +17,7 @@
 //#include "wiring.h"
 #include "i2c/i2c.h"
 
-static uint8_t buffer[1];
-static uint8_t bufferwr[1];
-static void readCompleted(bool);
+static void readCompleted(bool, uint8_t*, uint8_t);
 
 int main(void)
 {
@@ -27,17 +25,20 @@ int main(void)
     uart0_init(UART_BAUD_SELECT_DOUBLE_SPEED(115200, F_CPU));
     uart0_puts("Hi Jack!\n");
 
-    i2cConfigure(i2cFastMode);
-    bufferwr[0] = 0xEB;
+    i2cConfigure(i2cNormalMode);
 
     while(1) {
         uint8_t command = uart0_available() ? (uint8_t) uart0_getc() : 0;
 
         switch (command) {
         case 's':
-            i2cTransaction(0x68, 0x0F, 1, buffer, false, readCompleted);
-            i2cTransaction(0x68, 0x22, 1, bufferwr, true, readCompleted);
-            i2cTransaction(0x68, 0x22, 1, buffer, false, readCompleted);
+            i2cRead(0x68, 0x0F, 1, readCompleted);
+            i2cWriteByte(0x68, 0x22, 0xEB, NULL);
+            i2cRead(0x68, 0x22, 10, readCompleted);
+            i2cRead(0x18, 0x8f, 6, readCompleted);
+            i2cRead(0x18, 0x0f, 6, readCompleted);
+            i2cRead(0x18, 0x8f, 1, readCompleted);
+            i2cRead(0x18, 0x0f, 1, readCompleted);
             break;
         default:
             break;
@@ -49,15 +50,23 @@ int main(void)
     return EXIT_SUCCESS;
 }
 
-static void readCompleted(bool isSuccess) {
+static void readCompleted(bool isSuccess, uint8_t* data, uint8_t len) {
     if (isSuccess) {
-        uart0_puts("=] ");
-        uint8_t data = buffer[0];
-        for (uint8_t i = 0; i < 8; i++) {
-            uart0_putc((data & 0x80) ? '1' : '0');
-            data = data << 1;
+        uart0_puts("Data: ");
+
+        for (uint8_t i = 0; i < len; i++) {
+            uint8_t byte = (data[i] >> 4) & 0x0F;
+            char ch = (byte < 0x0A ? 0x30 : 0x37) + byte;
+            uart0_putc(ch);
+
+            byte = data[i] & 0x0F;
+            ch = (byte < 0x0A ? 0x30 : 0x37) + byte;
+            uart0_putc(ch);
+
+            uart0_putc(i < len-1 ? ' ' : '\n');
         }
-        uart0_putc('\n');
+
+        free(data);
     } else {
         uart0_puts("=[\n");
     }

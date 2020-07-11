@@ -162,13 +162,15 @@
   <ItemGroup>
     <Folder Include="Sources" />
     <Folder Include="Sources\i2c\driver" />
-    <Folder Include="Sources\i2c\states\" />
+    <Folder Include="Sources\i2c\sequence" />
     <Folder Include="Sources\libs" />
     <Folder Include="Sources\libs\avr-uart" />
     <Folder Include="Sources\common" />
     <Folder Include="Sources\button" />
     <Folder Include="Sources\Motor" />
     <Folder Include="Sources\i2c" />
+    <Folder Include="Sources\Sensors" />
+    <Folder Include="Sources\Sensors\Hyroscope" />
     <Folder Include="Sources\steer" />
     <Folder Include="Sources\steer\states" />
     <Folder Include="Sources\stepper\driver" />
@@ -186,6 +188,12 @@
     <Compile Include="Sources\common\bitManipulations.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Sources\common\queue.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\common\queue.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Sources\common\unused.h">
       <SubType>compile</SubType>
     </Compile>
@@ -201,97 +209,13 @@
     <Compile Include="Sources\i2c\i2c.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\i2c\states\address.c">
+    <Compile Include="Sources\i2c\sequence\sequence.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\i2c\states\address.h">
+    <Compile Include="Sources\i2c\sequence\sequence.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Sources\i2c\states\addressForRead.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\addressForRead.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\command.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\command.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\completion.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\completion.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\idle.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\idle.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\initial.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\initial.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\queue.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\queue.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\readAck.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\readAck.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\readData.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\readData.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\readNack.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\readNack.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\repeatedStart.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\repeatedStart.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\start.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\start.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\state.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\state.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\stop.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\stop.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\transactionParams.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\writeData.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Sources\i2c\states\writeData.h">
+    <Compile Include="Sources\i2c\sequence\transaction.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\libs\avr-uart\uart.c">
@@ -307,6 +231,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\Motor\motor.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\Sensors\Hyroscope\gyroscope.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\Sensors\Hyroscope\gyroscope.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\steer\states\calibration.c">

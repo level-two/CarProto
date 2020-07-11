@@ -7,23 +7,24 @@
 
 #include <stdlib.h>
 #include "i2c.h"
+#include "common/queue.h"
 #include "driver/driver.h"
-#include "states/state.h"
-#include "states/initial.h"
+#include "sequence/sequence.h"
+#include "sequence/transaction.h"
 
 #if !defined(F_CPU)
     #error "Please define F_CPU"
 #endif
 
-static I2CStatePtr i2cState;
-
-static void acknowledge(bool);
+static QueuePtr transactionQueue;
+static void transactionCompleted(bool);
+static void tryStrartNextTransaction();
 
 void i2cConfigure(I2CMode mode) {
-    i2cState = (I2CStatePtr) malloc(sizeof(struct I2CState));
-    i2cTransitionToInitial(i2cState);
+    transactionQueue = queueMake();
 
-    i2cDriverSetAcknowledgeCallback(acknowledge);
+    i2cSequenceSetup();
+    i2cSequenceSetCompletion(transactionCompleted);
 
     switch (mode) {
     case i2cNormalMode:
@@ -35,17 +36,79 @@ void i2cConfigure(I2CMode mode) {
     }
 }
 
-void i2cTransaction(
+void i2cRead(
     uint8_t addr,
-    uint8_t command,
+    uint8_t subaddr,
     uint8_t bytesCount,
-    uint8_t *buffer,
-    bool write,
     I2COperationCompletion completion)
 {
-    i2cState->addTransaction(i2cState, addr, command, bytesCount, buffer, write, completion);
+    I2CTransactionPtr transaction = (I2CTransactionPtr) malloc(sizeof(struct I2CTransaction));
+    transaction->addr = addr;
+    transaction->subaddr = subaddr;
+    transaction->write = false;
+    transaction->data = (uint8_t *) malloc(bytesCount * sizeof(uint8_t));
+    transaction->dataLen = bytesCount;
+    transaction->completion = completion;
+    queuePushBack(transactionQueue, transaction);
+    tryStrartNextTransaction();
 }
 
-void acknowledge(bool ack) {
-    i2cState->acknowledge(i2cState, ack);
+void i2cWriteByte(
+    uint8_t addr,
+    uint8_t subaddr,
+    uint8_t byte,
+    I2COperationCompletion completion)
+{
+    I2CTransactionPtr transaction = (I2CTransactionPtr) malloc(sizeof(struct I2CTransaction));
+    transaction->addr = addr;
+    transaction->subaddr = subaddr;
+    transaction->write = true;
+    transaction->data = (uint8_t *) malloc(sizeof(uint8_t));
+    transaction->data[0] = byte;
+    transaction->dataLen = 1;
+    transaction->completion = completion;
+    queuePushBack(transactionQueue, transaction);
+    tryStrartNextTransaction();
+}
+
+void i2cWrite(
+    uint8_t addr,
+    uint8_t subaddr,
+    uint8_t *data,
+    uint8_t bytesCount,
+    I2COperationCompletion completion)
+{
+    I2CTransactionPtr transaction = (I2CTransactionPtr) malloc(sizeof(struct I2CTransaction));
+    transaction->addr = addr;
+    transaction->subaddr = subaddr;
+    transaction->write = true;
+    transaction->data = data;
+    transaction->dataLen = bytesCount;
+    transaction->completion = completion;
+    queuePushBack(transactionQueue, transaction);
+    tryStrartNextTransaction();
+}
+
+static void transactionCompleted(bool isSuccess) {
+    I2CTransactionPtr transaction = queuePopFront(transactionQueue);
+
+    I2COperationCompletion completion = transaction->completion;
+
+    if (completion != NULL) {
+        completion(isSuccess, transaction->write ? NULL : transaction->data, transaction->dataLen);
+    }
+
+    if (completion == NULL || transaction->write) {
+        free(transaction->data);
+    }
+
+    free(transaction);
+
+    tryStrartNextTransaction();
+}
+
+static void tryStrartNextTransaction() {
+    if (i2cSequenceInProgress() || queueIsEmpty(transactionQueue)) { return; }
+    I2CTransactionPtr transaction = queueHead(transactionQueue);
+    i2cSequenceStratTransaction(transaction);
 }

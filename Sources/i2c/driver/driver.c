@@ -13,38 +13,33 @@
 #include "common/bitManipulations.h"
 
 typedef enum {
-    StatusStart = 0x08,
-    StatusRepeatedStart = 0x10,
+    statusStart = 0x08,
+    statusRepeatedStart = 0x10,
 
-    StatusWriteAddrAck = 0x18,
-    StatusWriteAddrNack = 0x20,
-    StatusWriteDataAck = 0x28,
-    StatusWriteDataNack = 0x30,
+    statusWriteAddrAck = 0x18,
+    statusWriteAddrNack = 0x20,
+    statusWriteDataAck = 0x28,
+    statusWriteDataNack = 0x30,
 
-    StatusArbLost = 0x38,
+    statusArbLost = 0x38,
 
-    StatusReadAddrAck = 0x40,
-    StatusReadAddrNack = 0x48,
-    StatusReadDataAck = 0x50,
-    StatusReadDataNack = 0x58,
-
-    StatusDoNotTrack = 0xFF
+    statusReadAddrAck = 0x40,
+    statusReadAddrNack = 0x48,
+    statusReadDataAck = 0x50,
+    statusReadDataNack = 0x58
 } OperationStatus;
 
 
-static I2CDriverAcknowledgeCallback acknowledgeCallback = NULL;
+static I2CDriverOperationCompleted completionCallback = NULL;
+
 static OperationStatus expectedStatus;
 static uint8_t currentStatus();
 
 
 ISR(TWI_vect) {
-    if (acknowledgeCallback != NULL) {
-        bool isSuccess =
-            expectedStatus == StatusDoNotTrack ||
-            currentStatus() == expectedStatus;
-
-        acknowledgeCallback(isSuccess);
-    }
+    if (completionCallback == NULL) { return; }
+    bool isSuccess = (currentStatus() == expectedStatus);
+    completionCallback(isSuccess);
 }
 
 
@@ -53,17 +48,17 @@ void i2cDriverConfigure(uint8_t bitRateDivisionFactor) {
     TWSR &= ~( (1 << TWPS1) | (1 << TWPS0));
 }
 
-void i2cDriverSetAcknowledgeCallback(I2CDriverAcknowledgeCallback callback) {
-    acknowledgeCallback = callback;
+void i2cDriverOnOperationCompleted(I2CDriverOperationCompleted completion) {
+    completionCallback = completion;
 }
 
 void i2cDriverSendStart() {
-    expectedStatus = StatusStart;
+    expectedStatus = statusStart;
     TWCR = (1 << TWIE) | (1 << TWINT) | (1 << TWEN) | (1 << TWSTA);
 }
 
 void i2cDriverSendRepeatedStart() {
-    expectedStatus = StatusRepeatedStart;
+    expectedStatus = statusRepeatedStart;
     TWCR = (1 << TWIE) | (1 << TWINT) | (1 << TWEN) | (1 << TWSTA);
 }
 
@@ -72,40 +67,35 @@ void i2cDriverSendStop() {
 }
 
 void i2cDriverSendAddrForWrite(uint8_t addr) {
-    expectedStatus = StatusWriteAddrAck;
+    expectedStatus = statusWriteAddrAck;
     TWDR = (addr << 1);
     TWCR = (1 << TWIE) | (1 << TWINT) | (1 << TWEN);
 }
 
 void i2cDriverSendAddrForRead(uint8_t addr) {
-    expectedStatus = StatusReadAddrAck;
+    expectedStatus = statusReadAddrAck;
     TWDR = (addr << 1) | 0x01;
     TWCR = (1 << TWIE) | (1 << TWINT) | (1 << TWEN);
 }
 
 void i2cDriverSendData(uint8_t data) {
-    expectedStatus = StatusWriteDataAck;
+    expectedStatus = statusWriteDataAck;
     TWDR = data;
     TWCR = (1 << TWIE) | (1 << TWINT) | (1 << TWEN);
 }
 
-void i2cDriverReadData() {
-    expectedStatus = StatusDoNotTrack;
-    TWCR = (1 << TWIE) | (1 << TWINT) | (1 << TWEN);
+void i2cDriverReadData(bool isLast) {
+    if (isLast) {
+        expectedStatus = statusReadDataNack;
+        TWCR =(1 << TWIE) | (1 << TWINT) | (1 << TWEN);
+    } else {
+        expectedStatus = statusReadDataAck;
+        TWCR = (1 << TWIE) | (1 << TWINT) | (1 << TWEN) | (1 << TWEA);
+    }
 }
 
 uint8_t i2cDriverGetReceivedData() {
     return TWDR;
-}
-
-void i2cDriverSendReadDataAck() {
-    expectedStatus = StatusReadDataAck;
-    TWCR = (1 << TWIE) | (1 << TWINT) | (1 << TWEN) | (1 << TWEA);
-}
-
-void i2cDriverSendReadDataNack() {
-    expectedStatus = StatusReadDataNack;
-    TWCR = (1 << TWIE) | (1 << TWINT) | (1 << TWEN);
 }
 
 static uint8_t currentStatus() {
