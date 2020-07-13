@@ -12,7 +12,8 @@
 
 typedef void (*GyroscopeDataCallback)(uint8_t*, uint8_t);
 
-void gyroscopeConfigure();
-//void gyroscopeGetData(GyroscopeDataCallback);
+void gyroConfigure();
+void gyroRequestData();
+void gyroOnDataReceived(GyroscopeDataCallback);
 
 #endif /* GYROSCOPE_H_ */

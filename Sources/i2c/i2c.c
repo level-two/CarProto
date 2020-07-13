@@ -36,6 +36,14 @@ void i2cConfigure(I2CMode mode) {
     }
 }
 
+void i2cReadByte(
+    uint8_t addr,
+    uint8_t subaddr,
+    I2COperationCompletion completion)
+{
+    i2cRead(addr, subaddr, 1, completion);
+}
+
 void i2cRead(
     uint8_t addr,
     uint8_t subaddr,
@@ -94,12 +102,14 @@ static void transactionCompleted(bool isSuccess) {
 
     I2COperationCompletion completion = transaction->completion;
 
-    if (completion != NULL) {
-        completion(isSuccess, transaction->write ? NULL : transaction->data, transaction->dataLen);
+    if (isSuccess == false || completion == NULL || transaction->write) {
+        free(transaction->data);
+        transaction->data = NULL;
+        transaction->dataLen = 0;
     }
 
-    if (completion == NULL || transaction->write) {
-        free(transaction->data);
+    if (completion != NULL) {
+        completion(isSuccess, transaction->data, transaction->dataLen);
     }
 
     free(transaction);

@@ -20,6 +20,11 @@ typedef enum {
 
 void i2cConfigure(I2CMode mode);
 
+void i2cReadByte(
+    uint8_t addr,
+    uint8_t subaddr,
+    I2COperationCompletion completion);
+
 void i2cRead(
     uint8_t addr,
     uint8_t subaddr,
