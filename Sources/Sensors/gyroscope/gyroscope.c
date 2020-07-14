@@ -15,7 +15,7 @@
 static void onFifoSrcReg(bool, uint8_t*, uint8_t);
 static void onData(bool, uint8_t*, uint8_t);
 
-GyroscopeDataCallback onDataReceived;
+static GyroscopeDataCallback onDataReceived;
 
 void gyroConfigure() {
     i2cWriteByte(ADDRESS, CTRL5_REG, (1 << FIFO_EN) | (0x3 << OUT_SEL), NULL);

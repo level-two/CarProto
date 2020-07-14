@@ -171,6 +171,8 @@
     <Folder Include="Sources\i2c" />
     <Folder Include="Sources\sensors" />
     <Folder Include="Sources\sensors\gyroscope" />
+    <Folder Include="Sources\sensors\magnetometer" />
+    <Folder Include="Sources\sensors\accelerometer" />
     <Folder Include="Sources\steer" />
     <Folder Include="Sources\steer\states" />
     <Folder Include="Sources\stepper\driver" />
@@ -233,6 +235,15 @@
     <Compile Include="Sources\motor\motor.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Sources\sensors\accelerometer\accelerometer.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\sensors\accelerometer\accelerometer.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\sensors\accelerometer\lis331dlh.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Sources\sensors\gyroscope\gyroscope.c">
       <SubType>compile</SubType>
     </Compile>
@@ -240,6 +251,15 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\sensors\gyroscope\l3g4200d.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\sensors\magnetometer\lis3mdl.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\sensors\magnetometer\magnetometer.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\sensors\magnetometer\magnetometer.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\steer\states\calibration.c">
