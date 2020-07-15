@@ -167,6 +167,7 @@
     <Folder Include="Sources\libs\avr-uart" />
     <Folder Include="Sources\common" />
     <Folder Include="Sources\button" />
+    <Folder Include="Sources\libs\memdebug" />
     <Folder Include="Sources\motor" />
     <Folder Include="Sources\i2c" />
     <Folder Include="Sources\sensors" />
@@ -224,6 +225,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\libs\avr-uart\uart.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\libs\memdebug\memdebug.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\libs\memdebug\memdebug.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\main.c">
