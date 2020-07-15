@@ -18,6 +18,8 @@ typedef void (*I2CDriverOperationCompleted)(bool);
 #define I2C_FAST_MODE(xtalCpu) ((xtalCpu / 400000UL - 16UL)/2UL)
 
 void i2cDriverConfigure(uint8_t bitRateDivisionFactor);
+void i2cDriverDisable();
+
 void i2cDriverOnOperationCompleted(I2CDriverOperationCompleted completion);
 
 void i2cDriverSendStart();

@@ -40,8 +40,7 @@ static void onData(bool isSuccess, uint8_t* data, uint8_t len) {
     magData.x = ((int16_t)data[1] << 8) | (int16_t)data[0];
     magData.y = ((int16_t)data[3] << 8) | (int16_t)data[2];
     magData.z = ((int16_t)data[5] << 8) | (int16_t)data[4];
-
-    onDataReceived(magData);
     free(data);
 
+    onDataReceived(magData);
 }

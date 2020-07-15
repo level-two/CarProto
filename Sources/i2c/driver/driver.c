@@ -45,7 +45,13 @@ ISR(TWI_vect) {
 
 void i2cDriverConfigure(uint8_t bitRateDivisionFactor) {
     TWBR = bitRateDivisionFactor;
-    TWSR &= ~( (1 << TWPS1) | (1 << TWPS0));
+    TWSR &= ~((1 << TWPS1) | (1 << TWPS0));
+}
+
+void i2cDriverDisable() {
+    TWCR = 0x00;
+    TWBR = 0x00;
+    TWSR &= ~((1 << TWPS1) | (1 << TWPS0));
 }
 
 void i2cDriverOnOperationCompleted(I2CDriverOperationCompleted completion) {

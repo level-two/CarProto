@@ -33,6 +33,7 @@ int main(void)
         _delay_ms(100);
     }
 
+    i2cDisable();
     return EXIT_SUCCESS;
 }
 

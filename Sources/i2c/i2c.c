@@ -36,6 +36,12 @@ void i2cConfigure(I2CMode mode) {
     }
 }
 
+void i2cDisable() {
+    while (queueIsEmpty(transactionQueue) == false);
+    queueRelease(transactionQueue, false);
+    i2cDriverDisable();
+}
+
 void i2cReadByte(
     uint8_t addr,
     uint8_t subaddr,

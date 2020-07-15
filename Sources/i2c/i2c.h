@@ -19,6 +19,7 @@ typedef enum {
 } I2CMode;
 
 void i2cConfigure(I2CMode mode);
+void i2cDisable();
 
 void i2cReadByte(
     uint8_t addr,
