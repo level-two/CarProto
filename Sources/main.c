@@ -1,10 +1,48 @@
 /*
  * CarProto.c
+
  *
  * Created: 22.04.2020 18:13:29
  * Author : Yauheni
  */
 
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "reference/reference.h"
+#include "memdebug/memdebug.h"
+
+typedef struct {
+    uint8_t a;
+    uint16_t b;
+} Test;
+
+int main(void) {
+    Test *a = alloc(sizeof(Test));
+    autorelease(a);
+    flushAutoreleasePool();
+
+    uint16_t *b = alloc(sizeof(uint16_t));
+    autorelease(b);
+    retain(b);
+    retain(b);
+    release(b);
+    release(b);
+    flushAutoreleasePool();
+
+    uint16_t* c[50];
+    for (uint8_t i = 0; i < 50; i++) {
+        c[i] = (uint16_t*) alloc(sizeof(uint16_t));
+    }
+
+    for (uint8_t i = 0; i < 50; i++) {
+        release(c[i]);
+    }
+
+    return EXIT_SUCCESS;
+}
+
+/*
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
@@ -37,6 +75,8 @@ int main(void)
 
         uint8_t command = uart0_available() ? (uint8_t) uart0_getc() : 0;
         if (command == 'q') break;
+
+        flushAutoreleasePool();
 
         _delay_ms(100);
     }
@@ -80,3 +120,4 @@ static void printHex(uint8_t byte) {
     ch = (half < 0x0A ? 0x30 : 0x37) + half;
     uart0_putc(ch);
 }
+*/

@@ -7,6 +7,7 @@
 
 #include <inttypes.h>
 #include <stdlib.h>
+#include "reference/reference.h"
 #include "sequence.h"
 #include "../driver/driver.h"
 
@@ -39,11 +40,13 @@ void i2cSequenceSetup() {
 }
 
 void i2cSequenceSetCompletion(SequenceCompletion callback) {
-    sequenceCompleted =  callback;
+    sequenceCompleted = callback;
 }
 
 void i2cSequenceStratTransaction(I2CTransactionPtr parameters) {
     params = parameters;
+    retain(params);
+    retain(params->data);
 
     transferredBytes = 0;
     inProgress = true;
@@ -124,6 +127,10 @@ static void performStep() {
 }
 
 static void finishTransaction(bool isSuccess) {
+    release(params->data);
+    release(params);
+    params = NULL;
+
     inProgress = false;
 
     if (sequenceCompleted != NULL) {

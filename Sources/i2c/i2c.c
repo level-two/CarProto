@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include "i2c.h"
 #include "common/queue.h"
+#include "reference/reference.h"
 #include "driver/driver.h"
 #include "sequence/sequence.h"
 #include "sequence/transaction.h"
@@ -22,6 +23,7 @@ static void tryStrartNextTransaction();
 
 void i2cConfigure(I2CMode mode) {
     transactionQueue = queueMake();
+    retain(transactionQueue);
 
     i2cSequenceSetup();
     i2cSequenceSetCompletion(transactionCompleted);
@@ -38,7 +40,8 @@ void i2cConfigure(I2CMode mode) {
 
 void i2cDisable() {
     while (queueIsEmpty(transactionQueue) == false);
-    queueRelease(transactionQueue, false);
+    queueFlush(transactionQueue);
+    release(transactionQueue);
     i2cDriverDisable();
 }
 
@@ -56,11 +59,12 @@ void i2cRead(
     uint8_t bytesCount,
     I2COperationCompletion completion)
 {
-    I2CTransactionPtr transaction = (I2CTransactionPtr) malloc(sizeof(struct I2CTransaction));
+    I2CTransactionPtr transaction = (I2CTransactionPtr) alloc(sizeof(struct I2CTransaction));
+    autorelease(transaction);
     transaction->addr = addr;
     transaction->subaddr = subaddr;
     transaction->write = false;
-    transaction->data = (uint8_t *) malloc(bytesCount * sizeof(uint8_t));
+    transaction->data = (uint8_t *) alloc(bytesCount * sizeof(uint8_t));
     transaction->dataLen = bytesCount;
     transaction->completion = completion;
     queuePushBack(transactionQueue, transaction);
@@ -73,11 +77,12 @@ void i2cWriteByte(
     uint8_t byte,
     I2COperationCompletion completion)
 {
-    I2CTransactionPtr transaction = (I2CTransactionPtr) malloc(sizeof(struct I2CTransaction));
+    I2CTransactionPtr transaction = (I2CTransactionPtr) alloc(sizeof(struct I2CTransaction));
+    autorelease(transaction);
     transaction->addr = addr;
     transaction->subaddr = subaddr;
     transaction->write = true;
-    transaction->data = (uint8_t *) malloc(sizeof(uint8_t));
+    transaction->data = (uint8_t *) alloc(sizeof(uint8_t));
     transaction->data[0] = byte;
     transaction->dataLen = 1;
     transaction->completion = completion;
@@ -92,7 +97,8 @@ void i2cWrite(
     uint8_t bytesCount,
     I2COperationCompletion completion)
 {
-    I2CTransactionPtr transaction = (I2CTransactionPtr) malloc(sizeof(struct I2CTransaction));
+    I2CTransactionPtr transaction = (I2CTransactionPtr) alloc(sizeof(struct I2CTransaction));
+    autorelease(transaction);
     transaction->addr = addr;
     transaction->subaddr = subaddr;
     transaction->write = true;
@@ -105,20 +111,17 @@ void i2cWrite(
 
 static void transactionCompleted(bool isSuccess) {
     I2CTransactionPtr transaction = queuePopFront(transactionQueue);
+    autorelease(transaction->data);
 
     I2COperationCompletion completion = transaction->completion;
 
-    if (isSuccess == false || completion == NULL || transaction->write) {
-        free(transaction->data);
-        transaction->data = NULL;
-        transaction->dataLen = 0;
-    }
-
-    if (completion != NULL) {
+    if (completion == NULL) {
+        // do nothing
+    } else if (isSuccess == false || transaction->write) {
+        completion(isSuccess, NULL, 0);
+    } else {
         completion(isSuccess, transaction->data, transaction->dataLen);
     }
-
-    free(transaction);
 
     tryStrartNextTransaction();
 }

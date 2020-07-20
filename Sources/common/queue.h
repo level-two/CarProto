@@ -14,7 +14,7 @@
 typedef struct Queue* QueuePtr;
 
 QueuePtr queueMake();
-void queueRelease(QueuePtr, bool freeDataMemory);
+void queueFlush(QueuePtr);
 bool queueIsEmpty(QueuePtr);
 void* queueHead(QueuePtr);
 void queuePushBack(QueuePtr, void *item);

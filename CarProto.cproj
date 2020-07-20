@@ -170,6 +170,8 @@
     <Folder Include="Sources\libs\memdebug" />
     <Folder Include="Sources\motor" />
     <Folder Include="Sources\i2c" />
+    <Folder Include="Sources\reference" />
+    <Folder Include="Sources\reference\implementation" />
     <Folder Include="Sources\sensors" />
     <Folder Include="Sources\sensors\gyroscope" />
     <Folder Include="Sources\sensors\magnetometer" />
@@ -240,6 +242,21 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\motor\motor.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\reference\implementation\autoreleasePool.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\reference\implementation\autoreleasePool.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\reference\implementation\referenceCounting.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\reference\implementation\referenceCounting.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sources\reference\reference.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Sources\sensors\accelerometer\accelerometer.c">
