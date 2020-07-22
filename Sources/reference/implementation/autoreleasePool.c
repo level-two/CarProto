@@ -37,10 +37,10 @@ void flushAutoreleasePool() {
 static void adjustAutoreleasePoolSize() {
     if (autoreleasePool.count == 0) {
         autoreleasePool.capacity = POOL_SIZE_STEP;
-        autoreleasePool.pointers = realloc(autoreleasePool.pointers, POOL_SIZE_STEP * sizeof(void*));
+        autoreleasePool.pointers = (void**) realloc(autoreleasePool.pointers, POOL_SIZE_STEP * sizeof(void*));
     }
     else if (autoreleasePool.count == autoreleasePool.capacity) {
         autoreleasePool.capacity += POOL_SIZE_STEP;
-        autoreleasePool.pointers = realloc(autoreleasePool.pointers, autoreleasePool.capacity * sizeof(void*));
+        autoreleasePool.pointers = (void**) realloc(autoreleasePool.pointers, autoreleasePool.capacity * sizeof(void*));
     }
 }

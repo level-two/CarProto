@@ -94,15 +94,15 @@ static uint8_t indexOf(void* pointer) {
 static void adjustTableCapacity() {
     if (refsTable.count == 0) {
         refsTable.capacity = TABLE_SIZE_STEP;
-        refsTable.refs = realloc(refsTable.refs, TABLE_SIZE_STEP * sizeof(Reference*));
+        refsTable.refs = (Reference**) realloc(refsTable.refs, TABLE_SIZE_STEP * sizeof(Reference*));
     }
     else if (refsTable.count == refsTable.capacity) {
         refsTable.capacity += TABLE_SIZE_STEP;
-        refsTable.refs = realloc(refsTable.refs, refsTable.capacity * sizeof(Reference*));
+        refsTable.refs = (Reference**) realloc(refsTable.refs, refsTable.capacity * sizeof(Reference*));
     }
     else if (refsTable.count == refsTable.capacity - TABLE_SIZE_STEP - (TABLE_SIZE_STEP >> 1)) {
         refsTable.capacity -= TABLE_SIZE_STEP;
-        refsTable.refs = realloc(refsTable.refs, refsTable.capacity * sizeof(Reference*));
+        refsTable.refs = (Reference**) realloc(refsTable.refs, refsTable.capacity * sizeof(Reference*));
     }
 
     assert(refsTable.refs != NULL);

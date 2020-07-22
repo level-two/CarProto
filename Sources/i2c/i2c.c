@@ -40,7 +40,6 @@ void i2cConfigure(I2CMode mode) {
 
 void i2cDisable() {
     while (queueIsEmpty(transactionQueue) == false);
-    queueFlush(transactionQueue);
     release(transactionQueue);
     i2cDriverDisable();
 }
