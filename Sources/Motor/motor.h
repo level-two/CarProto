@@ -24,6 +24,6 @@ typedef Motor* MotorPtr;
 MotorPtr motorSetup(volatile uint8_t* portReg, volatile uint8_t* ddrReg, uint8_t motorPin);
 void motorTurnOn(MotorPtr, bool);
 bool isMotorOn(MotorPtr);
-void motorRelease(MotorPtr);
+void motorReleaseResources(MotorPtr);
 
 #endif /* MOTOR_H_ */

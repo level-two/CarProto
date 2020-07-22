@@ -23,7 +23,7 @@ SteerStatePtr steerSetup(
     uint8_t letfStopperPin,
     uint8_t rightStopperPin);
 
-void steerRelease(SteerStatePtr);
+void steerReleaseResources(SteerStatePtr);
 void steerUpdate(SteerStatePtr, uint16_t);
 void steerSetPosition(SteerStatePtr, SteerPosition);
 SteerPosition steerCurrentPosition(SteerStatePtr);

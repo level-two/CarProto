@@ -36,7 +36,6 @@ static void onFifoSrcReg(bool isSuccess, uint8_t* data, uint8_t len) {
     if (!isSuccess) { return; }
 
     uint8_t fifoSrcReg = data[0];
-    free(data);
 
     uint8_t availableDataLen = (fifoSrcReg & (0x1F << FSS)) >> FSS;
 

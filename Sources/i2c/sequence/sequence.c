@@ -127,13 +127,13 @@ static void performStep() {
 }
 
 static void finishTransaction(bool isSuccess) {
-    release(params->data);
-    release(params);
-    params = NULL;
-
     inProgress = false;
 
     if (sequenceCompleted != NULL) {
         sequenceCompleted(isSuccess);
     }
+
+    release(params->data);
+    release(params);
+    params = NULL;
 }
