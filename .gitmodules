@@ -1,3 +1,3 @@
-[submodule "Sources/libs/avr-uart"]
-	path = Sources/libs/avr-uart
+[submodule "Software/Sources/libs/avr-uart"]
+	path = Software/Sources/libs/avr-uart
 url=https://github.com/level-two/avr-uart
